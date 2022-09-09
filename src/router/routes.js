@@ -1,8 +1,34 @@
 const routes = [
   {
-    path: "/",
-    component: () => import("layouts/MainLayout.vue"),
-    children: [{ path: "", component: () => import("pages/HomePage.vue") }],
+    path: "/sign-in",
+    alias: "",
+    component: () => import("layouts/NoLayout.vue"),
+    children: [{ path: "", component: () => import("pages/SignInPage.vue") }],
+  },
+
+  {
+    path: "/sign-up",
+    alias: "",
+    component: () => import("layouts/NoLayout.vue"),
+    children: [{ path: "", component: () => import("pages/SignUpPage.vue") }],
+  },
+
+  {
+    path: "/forgot-password",
+    alias: "",
+    component: () => import("layouts/NoLayout.vue"),
+    children: [
+      { path: "", component: () => import("pages/ForgotPasswordPage.vue") },
+    ],
+  },
+
+  {
+    path: "/reset-password",
+    alias: "",
+    component: () => import("layouts/NoLayout.vue"),
+    children: [
+      { path: "", component: () => import("pages/ResetPasswordPage.vue") },
+    ],
   },
 
   // Always leave this as last one,
