@@ -67,7 +67,7 @@
         <q-btn
           flat
           label="Forgot password?"
-          href="/a/forgot-password"
+          href="/forgot-password"
           color="primary"
           :no-caps="true"
           no-wrap
@@ -87,7 +87,7 @@
           flat
           padding="none"
           label="Sign up now"
-          href="/a/sign-up"
+          href="/sign-up"
           color="primary"
           :no-caps="true"
           no-wrap

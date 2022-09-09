@@ -35,7 +35,8 @@
           flat
           padding="none"
           label="contact us"
-          href="/pages/contact-us"
+          :href="`${urlShortenerWebLink}/#/contact-us`"
+          target="_blank"
           color="primary"
           :no-caps="true"
           no-wrap
@@ -48,7 +49,7 @@
           flat
           padding="none"
           label="Sign in"
-          href="/a/sign-in"
+          href="/sign-in"
           color="primary"
           :no-caps="true"
           no-wrap
@@ -65,10 +66,20 @@ export default defineComponent({
   name: "ForgotPasswordPage",
 
   setup() {
+    const urlShortenerWebProtocol = process.env.URL_SHORTENER_WEB_PROTOCOL;
+    const urlShortenerWebDomain = process.env.URL_SHORTENER_WEB_DOMAIN;
+    const urlShortenerWebPort = process.env.URL_SHORTENER_WEB_PORT;
+
+    const urlShortenerWebLink = ref(
+      `${urlShortenerWebProtocol}://${urlShortenerWebDomain}${
+        urlShortenerWebPort ? `:${urlShortenerWebPort}` : ""
+      }`
+    );
     const emailAddress = ref(null);
     const accept = ref(false);
 
     return {
+      urlShortenerWebLink,
       emailAddress,
       accept,
 

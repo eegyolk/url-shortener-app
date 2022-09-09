@@ -121,7 +121,8 @@
           flat
           padding="none"
           label="Terms & Conditions"
-          href="/pages/terms-and-conditions"
+          :href="`${urlShortenerWebLink}/#/terms-and-conditions`"
+          target="_blank"
           color="primary"
           :no-caps="true"
           no-wrap
@@ -131,7 +132,8 @@
           flat
           padding="none"
           label="Privacy Policy"
-          href="/pages/privacy-policy"
+          :href="`${urlShortenerWebLink}/#/privacy-policy`"
+          target="_blank"
           color="primary"
           :no-caps="true"
           no-wrap
@@ -144,7 +146,7 @@
           flat
           padding="none"
           label="Sign in"
-          href="/a/sign-in"
+          href="/sign-in"
           color="primary"
           :no-caps="true"
           no-wrap
@@ -161,6 +163,15 @@ export default defineComponent({
   name: "SignUpPage",
 
   setup() {
+    const urlShortenerWebProtocol = process.env.URL_SHORTENER_WEB_PROTOCOL;
+    const urlShortenerWebDomain = process.env.URL_SHORTENER_WEB_DOMAIN;
+    const urlShortenerWebPort = process.env.URL_SHORTENER_WEB_PORT;
+
+    const urlShortenerWebLink = ref(
+      `${urlShortenerWebProtocol}://${urlShortenerWebDomain}${
+        urlShortenerWebPort ? `:${urlShortenerWebPort}` : ""
+      }`
+    );
     const username = ref(null);
     const emailAddress = ref(null);
     const password = ref(null);
@@ -168,6 +179,7 @@ export default defineComponent({
     const accept = ref(false);
 
     return {
+      urlShortenerWebLink,
       username,
       emailAddress,
       password,
