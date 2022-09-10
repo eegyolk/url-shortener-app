@@ -1,5 +1,12 @@
 const routes = [
   {
+    path: "/ ",
+    alias: "/sign-in",
+    component: () => import("layouts/NoLayout.vue"),
+    children: [{ path: "", component: () => import("pages/SignInPage.vue") }],
+  },
+
+  {
     path: "/sign-in",
     alias: "",
     component: () => import("layouts/NoLayout.vue"),
