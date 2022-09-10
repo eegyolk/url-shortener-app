@@ -1,116 +1,107 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
-
-        <q-toolbar-title>
-          Quasar App
+  <q-layout view="lHh lpR fFf">
+    <q-header class="bg-white text-grey-9">
+      <q-toolbar class="q-pl-lg">
+        <q-toolbar-title class="text-weight-bold">
+          {{ title }}
         </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
+    <q-drawer class="bg-primary text-white" show-if-above side="left">
       <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
+        <q-item>
+          <q-item-section avatar>
+            <q-icon size="md" name="dashboard" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label
+              class="text-h5 text-weight-bold"
+              style="letter-spacing: 0.16667em"
+            >
+              ctrl.ph
+            </q-item-label>
+          </q-item-section>
+        </q-item>
 
-        <EssentialLink
-          v-for="link in essentialLinks"
+        <LeftSidebarLink
+          v-for="link in leftSidebarLinks"
           :key="link.title"
           v-bind="link"
         />
       </q-list>
     </q-drawer>
 
-    <q-page-container>
+    <q-page-container class="bg-blue-1">
       <router-view />
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
+import { defineComponent, ref } from "vue";
+import { useRoute } from "vue-router";
+import LeftSidebarLink from "components/MainLayout/LeftSidebarLink.vue";
 
 const linksList = [
   {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
+    title: "Dashboard",
+    icon: "display_settings",
+    link: "/dashboard",
   },
   {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
+    title: "Analytics",
+    icon: "insights",
+    link: "/analytics",
   },
   {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
+    title: "Links",
+    icon: "link",
+    link: "/links",
   },
   {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
+    title: "Domain",
+    icon: "domain",
+    link: "/domain",
   },
   {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
+    title: "Tags",
+    icon: "sell",
+    link: "/tags",
   },
   {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
+    title: "Channels",
+    icon: "signpost",
+    link: "/channels",
   },
   {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-]
+    title: "UTM",
+    icon: "schema",
+    link: "/utm",
+  },
+  {
+    title: "Workspace",
+    icon: "diversity_3",
+    link: "/workspace",
+  },
+];
 
 export default defineComponent({
-  name: 'MainLayout',
+  name: "MainLayout",
 
   components: {
-    EssentialLink
+    LeftSidebarLink,
   },
 
-  setup () {
-    const leftDrawerOpen = ref(false)
+  setup() {
+    const route = useRoute();
+
+    const title = ref(route.meta.title);
 
     return {
-      essentialLinks: linksList,
-      leftDrawerOpen,
-      toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      }
-    }
-  }
-})
+      leftSidebarLinks: linksList,
+      title,
+    };
+  },
+});
 </script>
