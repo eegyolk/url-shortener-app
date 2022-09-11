@@ -1,5 +1,10 @@
 <template>
-  <q-item clickable tag="a" :to="link">
+  <q-item
+    clickable
+    tag="a"
+    :to="link"
+    active-class="q-mx-xs bg-blue-1 text-grey-8"
+  >
     <q-item-section class="q-px-md" v-if="icon" avatar>
       <q-icon :name="icon" />
     </q-item-section>
