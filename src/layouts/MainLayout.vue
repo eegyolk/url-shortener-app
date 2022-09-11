@@ -4,7 +4,15 @@
       class="row items-center bg-white text-grey-8"
       style="height: 60px"
     >
-      <q-toolbar class="q-pl-lg">
+      <q-toolbar>
+        <q-btn
+          flat
+          @click="toggleMiniDrawerVisibility"
+          round
+          dense
+          color="primary"
+          icon="menu"
+        />
         <q-toolbar-title class="text-weight-bold">
           {{ title }}
         </q-toolbar-title>
@@ -23,7 +31,13 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer class="bg-primary text-white" show-if-above side="left">
+    <q-drawer
+      class="bg-primary text-white"
+      persistent
+      show-if-above
+      :mini="miniDrawerVisibility"
+      side="left"
+    >
       <q-list>
         <q-item
           class="row no-wrap justify-center items-center"
@@ -46,6 +60,7 @@
           v-for="link in leftSidebarLinks1"
           :key="link.title"
           v-bind="link"
+          :showTooltip="miniDrawerVisibility"
         />
 
         <div style="position: absolute; bottom: 5px; width: 100%">
@@ -53,6 +68,7 @@
             v-for="link in leftSidebarLinks2"
             :key="link.title"
             v-bind="link"
+            :showTooltip="miniDrawerVisibility"
           />
         </div>
       </q-list>
@@ -68,6 +84,8 @@
 import { defineComponent, ref } from "vue";
 import { useRoute } from "vue-router";
 import LeftSidebarLink from "components/MainLayout/LeftSidebarLink.vue";
+import { useMainLayoutStore } from "../stores/main-layout-store";
+import { storeToRefs } from "pinia";
 
 const linksList1 = [
   {
@@ -140,12 +158,20 @@ export default defineComponent({
   setup() {
     const route = useRoute();
 
+    const leftSidebarLinks1 = ref(linksList1);
+    const leftSidebarLinks2 = ref(linksList2);
     const title = ref(route.meta.title);
 
+    const mainLayoutStore = useMainLayoutStore();
+    const { miniDrawerVisibility } = storeToRefs(mainLayoutStore);
+    const { toggleMiniDrawerVisibility } = mainLayoutStore;
+
     return {
-      leftSidebarLinks1: linksList1,
-      leftSidebarLinks2: linksList2,
+      leftSidebarLinks1,
+      leftSidebarLinks2,
       title,
+      miniDrawerVisibility,
+      toggleMiniDrawerVisibility,
     };
   },
 });

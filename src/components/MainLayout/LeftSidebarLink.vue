@@ -1,12 +1,16 @@
 <template>
-  <q-item clickable tag="a" :href="link">
-    <q-item-section v-if="icon" avatar>
+  <q-item clickable tag="a" :to="link">
+    <q-item-section class="q-px-md" v-if="icon" avatar>
       <q-icon :name="icon" />
     </q-item-section>
 
     <q-item-section>
       <q-item-label>{{ title }}</q-item-label>
     </q-item-section>
+
+    <q-tooltip v-if="showTooltip" anchor="center end" self="center end">
+      {{ title }}
+    </q-tooltip>
   </q-item>
 </template>
 
@@ -29,6 +33,11 @@ export default defineComponent({
     icon: {
       type: String,
       default: "",
+    },
+
+    showTooltip: {
+      type: Boolean,
+      default: false,
     },
   },
 });
