@@ -14,7 +14,7 @@
           icon="menu"
         />
         <q-toolbar-title class="text-weight-bold">
-          {{ title }}
+          {{ $route.meta.title }}
         </q-toolbar-title>
 
         <q-space />
@@ -82,10 +82,9 @@
 
 <script>
 import { defineComponent, ref } from "vue";
-import { useRoute } from "vue-router";
-import LeftSidebarLink from "components/MainLayout/LeftSidebarLink.vue";
-import { useMainLayoutStore } from "../stores/main-layout-store";
 import { storeToRefs } from "pinia";
+import { useMainLayoutStore } from "stores/main-layout-store";
+import LeftSidebarLink from "components/MainLayout/LeftSidebarLink.vue";
 
 const linksList1 = [
   {
@@ -156,22 +155,18 @@ export default defineComponent({
   },
 
   setup() {
-    const route = useRoute();
-
-    const leftSidebarLinks1 = ref(linksList1);
-    const leftSidebarLinks2 = ref(linksList2);
-    const title = ref(route.meta.title);
-
     const mainLayoutStore = useMainLayoutStore();
     const { miniDrawerVisibility } = storeToRefs(mainLayoutStore);
     const { toggleMiniDrawerVisibility } = mainLayoutStore;
 
+    const leftSidebarLinks1 = ref(linksList1);
+    const leftSidebarLinks2 = ref(linksList2);
+
     return {
-      leftSidebarLinks1,
-      leftSidebarLinks2,
-      title,
       miniDrawerVisibility,
       toggleMiniDrawerVisibility,
+      leftSidebarLinks1,
+      leftSidebarLinks2,
     };
   },
 });
