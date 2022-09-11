@@ -1,12 +1,13 @@
 <template>
   <q-item
     clickable
+    dark
     tag="a"
     :to="link"
-    active-class="q-mx-xs bg-blue-1 text-grey-8"
+    active-class="text-weight-bolder rounded-borders"
   >
     <q-item-section class="q-px-md" v-if="icon" avatar>
-      <q-icon :name="icon" />
+      <q-icon :size="title === $route.meta.title ? 'md' : 'sm'" :name="icon" />
     </q-item-section>
 
     <q-item-section>
