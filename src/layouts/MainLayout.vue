@@ -89,7 +89,7 @@ import LeftSidebarLink from "components/MainLayout/LeftSidebarLink.vue";
 const linksList1 = [
   {
     title: "Dashboard",
-    icon: "display_settings",
+    icon: "speed",
     link: "/dashboard",
   },
   {
@@ -114,12 +114,12 @@ const linksList1 = [
   },
   {
     title: "Channels",
-    icon: "signpost",
+    icon: "podcasts",
     link: "/channels",
   },
   {
     title: "UTM",
-    icon: "schema",
+    icon: "dynamic_feed",
     link: "/utm",
   },
 ];
@@ -127,12 +127,12 @@ const linksList1 = [
 const linksList2 = [
   {
     title: "Profile",
-    icon: "person",
+    icon: "person_outline",
     link: "/profile",
   },
   {
     title: "Workspace",
-    icon: "diversity_3",
+    icon: "groups",
     link: "/workspace",
   },
   {
