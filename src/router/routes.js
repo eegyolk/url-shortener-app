@@ -151,6 +151,22 @@ const routes = [
   },
 
   {
+    path: "/profile",
+    alias: "",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      {
+        path: "",
+        component: () => import("pages/ProfilePage.vue"),
+        meta: {
+          requiresAuth: true,
+          title: "Profile",
+        },
+      },
+    ],
+  },
+
+  {
     path: "/workspace",
     alias: "",
     component: () => import("layouts/MainLayout.vue"),
@@ -161,6 +177,38 @@ const routes = [
         meta: {
           requiresAuth: true,
           title: "Workspace",
+        },
+      },
+    ],
+  },
+
+  {
+    path: "/settings",
+    alias: "",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      {
+        path: "",
+        component: () => import("pages/SettingsPage.vue"),
+        meta: {
+          requiresAuth: true,
+          title: "Settings",
+        },
+      },
+    ],
+  },
+
+  {
+    path: "/billing",
+    alias: "",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      {
+        path: "",
+        component: () => import("pages/BillingPage.vue"),
+        meta: {
+          requiresAuth: true,
+          title: "Billing",
         },
       },
     ],
