@@ -134,6 +134,7 @@
 
 <script>
 import { defineComponent, ref } from "vue";
+import { api } from "boot/axios";
 
 export default defineComponent({
   name: "SignInPage",
