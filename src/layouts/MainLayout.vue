@@ -118,7 +118,7 @@ const linksList1 = [
     link: "/channels",
   },
   {
-    title: "UTM",
+    title: "UTM Templates",
     icon: "dynamic_feed",
     link: "/utm",
   },
@@ -132,7 +132,7 @@ const linksList2 = [
   },
   {
     title: "Workspace",
-    icon: "groups",
+    icon: "workspaces",
     link: "/workspace",
   },
   {
