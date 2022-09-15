@@ -1,28 +1,28 @@
 const routes = [
   {
     path: "/ ",
-    alias: "/sign-in",
+    alias: "",
     component: () => import("layouts/NoLayout.vue"),
     children: [{ path: "", component: () => import("pages/SignInPage.vue") }],
   },
 
   {
     path: "/sign-in",
-    alias: "",
+    name: "sign-in",
     component: () => import("layouts/NoLayout.vue"),
     children: [{ path: "", component: () => import("pages/SignInPage.vue") }],
   },
 
   {
     path: "/sign-up",
-    alias: "",
+    name: "sign-up",
     component: () => import("layouts/NoLayout.vue"),
     children: [{ path: "", component: () => import("pages/SignUpPage.vue") }],
   },
 
   {
     path: "/forgot-password",
-    alias: "",
+    name: "forgot-password",
     component: () => import("layouts/NoLayout.vue"),
     children: [
       { path: "", component: () => import("pages/ForgotPasswordPage.vue") },
@@ -31,7 +31,7 @@ const routes = [
 
   {
     path: "/reset-password",
-    alias: "",
+    name: "reset-password",
     component: () => import("layouts/NoLayout.vue"),
     children: [
       { path: "", component: () => import("pages/ResetPasswordPage.vue") },
@@ -40,7 +40,7 @@ const routes = [
 
   {
     path: "/dashboard",
-    alias: "",
+    name: "dashboard",
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
@@ -56,7 +56,7 @@ const routes = [
 
   {
     path: "/analytics",
-    alias: "",
+    name: "analytics",
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
@@ -72,7 +72,7 @@ const routes = [
 
   {
     path: "/links",
-    alias: "",
+    name: "links",
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
@@ -88,7 +88,7 @@ const routes = [
 
   {
     path: "/domain",
-    alias: "",
+    name: "domain",
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
@@ -104,7 +104,7 @@ const routes = [
 
   {
     path: "/tags",
-    alias: "",
+    name: "tags",
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
@@ -120,7 +120,7 @@ const routes = [
 
   {
     path: "/channels",
-    alias: "",
+    name: "channels",
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
@@ -136,7 +136,7 @@ const routes = [
 
   {
     path: "/utm",
-    alias: "",
+    name: "utm",
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
@@ -152,7 +152,7 @@ const routes = [
 
   {
     path: "/profile",
-    alias: "",
+    name: "profile",
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
@@ -168,7 +168,7 @@ const routes = [
 
   {
     path: "/workspace",
-    alias: "",
+    name: "workspace",
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
@@ -184,7 +184,7 @@ const routes = [
 
   {
     path: "/settings",
-    alias: "",
+    name: "settings",
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
@@ -200,7 +200,7 @@ const routes = [
 
   {
     path: "/billing",
-    alias: "",
+    name: "billing",
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
