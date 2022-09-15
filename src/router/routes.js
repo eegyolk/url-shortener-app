@@ -39,6 +39,15 @@ const routes = [
   },
 
   {
+    path: "/reactivate-account",
+    name: "reactivate-account",
+    component: () => import("layouts/NoLayout.vue"),
+    children: [
+      { path: "", component: () => import("pages/ReactivateAccountPage.vue") },
+    ],
+  },
+
+  {
     path: "/dashboard",
     name: "dashboard",
     component: () => import("layouts/MainLayout.vue"),
