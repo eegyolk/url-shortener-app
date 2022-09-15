@@ -246,15 +246,12 @@ export default defineComponent({
             signingIn.value = false;
             return;
           } else if (status === 0 && errorCode === "ERR-SIGNIN-02") {
-            // TODO: redirect to reactivation page
-            showNotification("negative", message);
-            signingIn.value = false;
+            window.location.href = "/reactivate-account";
             return;
           }
 
           window.location.href = "/dashboard";
         } catch (e) {
-          console.error(e);
           showNotification(
             "negative",
             "Something went wrong, please contact our support team. Thank you"
