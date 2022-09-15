@@ -117,7 +117,9 @@
           />
         </q-card-section>
 
-        <q-card-section class="row no-wrap justify-center items-center q-py-xs">
+        <q-card-section
+          class="row no-wrap justify-center items-center q-pt-xs q-pb-md"
+        >
           <span class="q-pr-xs">Don't have an account yet?</span>
           <q-btn
             flat
@@ -278,7 +280,8 @@ export default defineComponent({
 <style lang="scss" scoped>
 .signin-card {
   width: 100%;
-  max-width: 450px;
+  max-width: 452px;
   background-color: #fff;
+  border: 1px solid $blue-2;
 }
 </style>
