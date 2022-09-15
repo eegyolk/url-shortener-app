@@ -113,6 +113,7 @@
             color="primary"
             :no-caps="true"
             @click="onSubmitSignIn"
+            :disabled="signingIn"
           />
         </q-card-section>
 
@@ -134,6 +135,8 @@
 
 <script>
 import { defineComponent, ref } from "vue";
+import { useRouter } from "vue-router";
+import { useQuasar } from "quasar";
 import { api } from "boot/axios";
 
 export default defineComponent({
@@ -147,6 +150,9 @@ export default defineComponent({
     const passwordHasError = ref(false);
     const passwordErrorMsg = ref("");
     const isPwd = ref(true);
+    const signingIn = ref(false);
+    const router = useRouter();
+    const $q = useQuasar();
 
     const validateEmailAddressField = () => {
       let hasError = false;
@@ -175,10 +181,10 @@ export default defineComponent({
         hasError = passwordHasError.value = true;
         passwordErrorMsg.value = "This field is required";
       } else {
-        if (password.value.length < 6) {
+        if (password.value.length < 8) {
           hasError = passwordHasError.value = true;
           passwordErrorMsg.value =
-            "Password must be at least 6 characters long";
+            "Password must be at least 8 characters long";
         } else {
           hasError = passwordHasError.value = false;
           passwordErrorMsg.value = "";
@@ -186,6 +192,14 @@ export default defineComponent({
       }
 
       return hasError;
+    };
+
+    const showNotification = (type, message) => {
+      $q.notify({
+        type,
+        position: "top",
+        message,
+      });
     };
 
     return {
@@ -196,24 +210,63 @@ export default defineComponent({
       passwordHasError,
       passwordErrorMsg,
       isPwd,
+      signingIn,
       validateEmailAddressField,
       validatePasswordField,
+      showNotification,
 
       onTogglePasswordVisibility() {
         isPwd.value = !isPwd.value;
       },
 
-      onSubmitSignIn() {
+      async onSubmitSignIn() {
         let hasError = false;
+
+        signingIn.value = true;
 
         hasError = validateEmailAddressField();
         hasError = validatePasswordField();
 
         if (hasError) {
+          signingIn.value = false;
           return;
         }
 
-        // TODO: call api endpoint here
+        try {
+          let response = await api.get("/app/csrf-cookie");
+
+          response = await api.post("/app/sign-in", {
+            password: password.value,
+            emailAddress: emailAddress.value,
+          });
+
+          const { status, errorCode, message } = response.data;
+          if (status === 0 && errorCode === "ERR-SIGNIN-01") {
+            showNotification("negative", message);
+            signingIn.value = false;
+            return;
+          } else if (status === 0 && errorCode === "ERR-SIGNIN-02") {
+            // TODO: redirect to verification page
+            showNotification("negative", message);
+            signingIn.value = false;
+            return;
+          } else if (status === 0 && errorCode === "ERR-SIGNIN-03") {
+            // TODO: redirect to reactivation page
+            showNotification("negative", message);
+            signingIn.value = false;
+            return;
+          }
+
+          window.location.href = "/dashboard";
+        } catch (e) {
+          console.error(e);
+          showNotification(
+            "negative",
+            "Something went wrong, please contact our support team. Thank you"
+          );
+
+          signingIn.value = false;
+        }
       },
     };
   },
