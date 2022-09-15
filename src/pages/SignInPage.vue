@@ -244,11 +244,6 @@ export default defineComponent({
             signingIn.value = false;
             return;
           } else if (status === 0 && errorCode === "ERR-SIGNIN-02") {
-            // TODO: redirect to verification page
-            showNotification("negative", message);
-            signingIn.value = false;
-            return;
-          } else if (status === 0 && errorCode === "ERR-SIGNIN-03") {
             // TODO: redirect to reactivation page
             showNotification("negative", message);
             signingIn.value = false;
