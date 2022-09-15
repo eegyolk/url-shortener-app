@@ -233,9 +233,7 @@ export default defineComponent({
         }
 
         try {
-          let response = await api.get("/app/csrf-cookie");
-
-          response = await api.post("/app/sign-in", {
+          const response = await api.post("/app/sign-in", {
             password: password.value,
             emailAddress: emailAddress.value,
           });

@@ -1,5 +1,6 @@
 import { boot } from "quasar/wrappers";
 import axios from "axios";
+import { Cookies } from "quasar";
 
 // Be careful when using SSR for cross-request state pollution
 // due to creating a Singleton instance here;
@@ -11,7 +12,7 @@ const urlShortenerAPIProtocol = process.env.URL_SHORTENER_API_PROTOCOL;
 const urlShortenerAPIDomain = process.env.URL_SHORTENER_API_DOMAIN;
 const urlShortenerAPIPort = process.env.URL_SHORTENER_API_PORT;
 
-const api = axios.create({
+const axiosRequestConfig = {
   baseURL: `${urlShortenerAPIProtocol}://${urlShortenerAPIDomain}${
     urlShortenerAPIPort ? `:${urlShortenerAPIPort}` : ""
   }`,
@@ -20,6 +21,16 @@ const api = axios.create({
     Accept: "application/json",
   },
   withCredentials: true,
+};
+const api = axios.create(axiosRequestConfig);
+const temp = axios.create(axiosRequestConfig);
+
+api.interceptors.request.use(async (config) => {
+  const xsrfToken = Cookies.get("XSRF-TOKEN");
+  if (!xsrfToken) {
+    await temp.get("/app/csrf-cookie");
+  }
+  return config;
 });
 
 export default boot(({ app }) => {
