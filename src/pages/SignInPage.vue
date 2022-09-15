@@ -52,7 +52,7 @@
             <template v-slot:prepend>
               <q-icon
                 name="email"
-                :color="emailAddressHasError ? 'red-5' : 'grey-7'"
+                :color="emailAddressHasError ? 'red-5' : 'blue'"
               />
             </template>
             <template v-slot:error>
@@ -73,15 +73,12 @@
             :error="passwordHasError"
           >
             <template v-slot:prepend>
-              <q-icon
-                name="key"
-                :color="passwordHasError ? 'red-5' : 'grey-7'"
-              />
+              <q-icon name="key" :color="passwordHasError ? 'red-5' : 'blue'" />
             </template>
             <template v-slot:append>
               <q-icon
                 class="cursor-pointer"
-                color="grey-7"
+                :color="passwordHasError ? 'red-5' : 'blue'"
                 :name="isPwd ? 'visibility_off' : 'visibility'"
                 @click="onTogglePasswordVisibility"
               />
