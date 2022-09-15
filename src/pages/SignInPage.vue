@@ -137,7 +137,6 @@
 
 <script>
 import { defineComponent, ref } from "vue";
-import { useRouter } from "vue-router";
 import { useQuasar } from "quasar";
 import { api } from "boot/axios";
 
@@ -153,7 +152,6 @@ export default defineComponent({
     const passwordErrorMsg = ref("");
     const isPwd = ref(true);
     const signingIn = ref(false);
-    const router = useRouter();
     const $q = useQuasar();
 
     const validateEmailAddressField = () => {
