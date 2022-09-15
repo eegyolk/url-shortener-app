@@ -230,8 +230,8 @@ export default defineComponent({
 
         try {
           const response = await api.post("/app/sign-in", {
-            password: password.value,
             emailAddress: emailAddress.value,
+            password: password.value,
           });
 
           const { status, errorCode, message } = response.data;
