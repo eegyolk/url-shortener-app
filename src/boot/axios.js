@@ -15,6 +15,11 @@ const api = axios.create({
   baseURL: `${urlShortenerAPIProtocol}://${urlShortenerAPIDomain}${
     urlShortenerAPIPort ? `:${urlShortenerAPIPort}` : ""
   }`,
+  headers: {
+    "Access-Control-Allow-Origin": true,
+    Accept: "application/json",
+  },
+  withCredentials: true,
 });
 
 export default boot(({ app }) => {
