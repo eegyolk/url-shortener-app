@@ -94,6 +94,7 @@
         <q-card-section class="flex flex-center q-py-xs q-pt-md">
           <q-btn
             flat
+            id="q-btn-forgot-password"
             class="q-mb-md"
             label="Forgot password?"
             href="/forgot-password"
@@ -119,6 +120,7 @@
           <span class="q-pr-xs">Don't have an account yet?</span>
           <q-btn
             flat
+            id="q-btn-sign-up-now"
             padding="xs"
             label="Sign up now"
             href="/sign-up"
@@ -274,5 +276,15 @@ export default defineComponent({
   max-width: 452px;
   background-color: #fff;
   border: 1px solid $blue-2;
+}
+
+#q-btn-forgot-password.q-hoverable:hover :deep(.q-focus-helper),
+#q-btn-sign-up-now.q-hoverable:hover :deep(.q-focus-helper) {
+  background: none;
+  opacity: 0;
+}
+#q-btn-forgot-password.q-hoverable:hover,
+#q-btn-sign-up-now.q-hoverable:hover {
+  color: $blue-6 !important;
 }
 </style>
