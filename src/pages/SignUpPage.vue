@@ -206,6 +206,7 @@
 import { defineComponent, ref } from "vue";
 import { useQuasar } from "quasar";
 import { api } from "boot/axios";
+import crypto from "crypto-js";
 
 const passwordRuleSet = [
   { passed: false, label: "Password is required", regex: /.{1,}/ },
@@ -343,22 +344,24 @@ export default defineComponent({
         }
 
         try {
-          // const response = await api.post("/app/sign-in", {
-          //   password: password.value,
-          //   emailAddress: emailAddress.value,
-          // });
+          const response = await api.post("/app/sign-up", {
+            fullName: fullName.value,
+            emailAddress: emailAddress.value,
+            password: password.value,
+          });
 
-          // const { status, errorCode, message } = response.data;
-          // if (status === 0 && errorCode === "ERR-SIGNIN-01") {
-          //   showNotification("negative", message);
-          signingUp.value = false;
-          //   return;
-          // } else if (status === 0 && errorCode === "ERR-SIGNIN-02") {
-          //   window.location.href = "/reactivate-account";
-          //   return;
-          // }
+          const { status, errorCode, message, data } = response.data;
+          if (status === 0 && errorCode === "ERR-SIGNUP-01") {
+            emailAddressHasError.value = true;
+            emailAddressErrorMsg.value = message;
+            signingUp.value = false;
+            return;
+          }
 
-          // window.location.href = "/dashboard";
+          const hash = crypto.SHA512(JSON.stringify(data));
+          window.location.href = `/profile?q=${hash.toString(
+            crypto.enc.Base64
+          )}`;
         } catch (e) {
           showNotification(
             "negative",
