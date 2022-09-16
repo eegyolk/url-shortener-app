@@ -159,6 +159,7 @@
             <span class="q-pr-xs">our</span>
             <q-btn
               flat
+              id="q-btn-terms-and-conditions"
               padding="none"
               label="Terms & Conditions"
               :href="`${urlShortenerWebLink}/#/terms-and-conditions`"
@@ -170,6 +171,7 @@
             <span class="q-px-xs">and</span>
             <q-btn
               flat
+              id="q-btn-privacy-policy"
               padding="xs"
               label="Privacy Policy"
               :href="`${urlShortenerWebLink}/#/privacy-policy`"
@@ -187,6 +189,7 @@
           <span class="q-pr-xs">Already have an account?</span>
           <q-btn
             flat
+            id="q-btn-sign-in"
             padding="xs"
             label="Sign in"
             href="/sign-in"
@@ -395,5 +398,17 @@ export default defineComponent({
 }
 .q-field:nth-child(3) :deep(.q-field__bottom) {
   padding: 0;
+}
+
+#q-btn-terms-and-conditions.q-hoverable:hover :deep(.q-focus-helper),
+#q-btn-privacy-policy.q-hoverable:hover :deep(.q-focus-helper),
+#q-btn-sign-in.q-hoverable:hover :deep(.q-focus-helper) {
+  background: none;
+  opacity: 0;
+}
+#q-btn-terms-and-conditions.q-hoverable:hover,
+#q-btn-privacy-policy.q-hoverable:hover,
+#q-btn-sign-in.q-hoverable:hover {
+  color: $blue-6 !important;
 }
 </style>
