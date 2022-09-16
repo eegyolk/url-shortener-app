@@ -21,6 +21,15 @@ const routes = [
   },
 
   {
+    path: "/verify-email-address",
+    name: "verify-email-address",
+    component: () => import("layouts/NoLayout.vue"),
+    children: [
+      { path: "", component: () => import("pages/VerifyEmailAddressPage.vue") },
+    ],
+  },
+
+  {
     path: "/forgot-password",
     name: "forgot-password",
     component: () => import("layouts/NoLayout.vue"),
