@@ -399,6 +399,18 @@ export default defineComponent({
 .q-field:nth-child(3) :deep(.q-field__bottom) {
   padding: 0;
 }
+.q-item:nth-child(1),
+.q-item--dense {
+  padding-top: 10px;
+}
+.q-item,
+.q-item--dense {
+  min-height: 100%;
+}
+.q-item:nth-child(6),
+.q-item--dense {
+  padding-bottom: 10px;
+}
 
 #q-btn-terms-and-conditions.q-hoverable:hover :deep(.q-focus-helper),
 #q-btn-privacy-policy.q-hoverable:hover :deep(.q-focus-helper),
