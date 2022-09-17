@@ -51,7 +51,7 @@
               class="text-h5 text-weight-bold"
               style="letter-spacing: 0.16667em"
             >
-              ctrl.ph
+              LOGO
             </q-item-label>
           </q-item-section>
         </q-item>
