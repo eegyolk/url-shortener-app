@@ -21,12 +21,10 @@ const routes = [
   },
 
   {
-    path: "/verify-email-address",
-    name: "verify-email-address",
+    path: "/verify",
+    name: "verify",
     component: () => import("layouts/NoLayout.vue"),
-    children: [
-      { path: "", component: () => import("pages/VerifyEmailAddressPage.vue") },
-    ],
+    children: [{ path: "", component: () => import("pages/VerifyPage.vue") }],
   },
 
   {
