@@ -1,5 +1,9 @@
 // app global css in SCSS form
 
+body {
+  color: $grey-9;
+}
+
 // q-input fields
 .q-field__control,
 .q-field__control:before,
