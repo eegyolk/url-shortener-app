@@ -24,7 +24,8 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "LeftSidebarLink",
+  name: "LeftSidebarLinkComponent",
+
   props: {
     title: {
       type: String,

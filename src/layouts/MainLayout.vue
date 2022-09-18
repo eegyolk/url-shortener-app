@@ -56,7 +56,7 @@
           </q-item-section>
         </q-item>
 
-        <LeftSidebarLink
+        <LeftSidebarLinkComponent
           v-for="link in leftSidebarLinks1"
           :key="link.title"
           v-bind="link"
@@ -64,7 +64,7 @@
         />
 
         <div style="position: absolute; bottom: 5px; width: 100%">
-          <LeftSidebarLink
+          <LeftSidebarLinkComponent
             v-for="link in leftSidebarLinks2"
             :key="link.title"
             v-bind="link"
@@ -84,7 +84,7 @@
 import { defineComponent, ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useMainLayoutStore } from "stores/main-layout-store";
-import LeftSidebarLink from "components/MainLayout/LeftSidebarLink.vue";
+import LeftSidebarLinkComponent from "components/MainLayout/LeftSidebarLinkComponent.vue";
 
 const linksList1 = [
   {
@@ -151,7 +151,7 @@ export default defineComponent({
   name: "MainLayout",
 
   components: {
-    LeftSidebarLink,
+    LeftSidebarLinkComponent,
   },
 
   setup() {
