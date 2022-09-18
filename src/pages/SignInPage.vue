@@ -2,34 +2,57 @@
   <q-page class="flex flex-center bg-blue-1">
     <q-card class="signin-card" flat>
       <q-card-section>
-        <q-card-section class="flex flex-center q-pb-xs">
-          <p class="text-h5 text-grey-9">Sign in to your account</p>
+        <q-card-section class="flex flex-center">
+          <p class="text-h5 text-weight-medium">Sign in to your account</p>
+
+          <div class="column items-center">
+            <div class="col">
+              <span class="q-pr-xs">Don't have an account yet?</span>
+              <q-btn
+                flat
+                id="q-btn-sign-up-now"
+                label="Sign up now"
+                href="/sign-up"
+                color="primary"
+                padding="none"
+                :no-caps="true"
+              />
+            </div>
+          </div>
         </q-card-section>
 
         <q-card-section class="flex flex-center q-pt-xs q-gutter-md">
-          <q-btn
-            outline
-            text-color="primary"
-            icon="fa-brands fa-google"
-            label="Google"
-            :no-caps="true"
-          />
+          <div class="column items-center">
+            <div class="col q-pb-md">
+              <span class="q-pr-xs text-weight-medium">Sign in with:</span>
+            </div>
 
-          <q-btn
-            outline
-            text-color="primary"
-            icon="fa-brands fa-facebook"
-            label="Facebook"
-            :no-caps="true"
-          />
+            <div class="col q-gutter-md">
+              <q-btn
+                outline
+                text-color="primary"
+                icon="fa-brands fa-google"
+                label="Google"
+                :no-caps="true"
+              />
 
-          <q-btn
-            outline
-            text-color="primary"
-            icon="fa-brands fa-twitter"
-            label="Twitter"
-            :no-caps="true"
-          />
+              <q-btn
+                outline
+                text-color="primary"
+                icon="fa-brands fa-facebook"
+                label="Facebook"
+                :no-caps="true"
+              />
+
+              <q-btn
+                outline
+                text-color="primary"
+                icon="fa-brands fa-twitter"
+                label="Twitter"
+                :no-caps="true"
+              />
+            </div>
+          </div>
         </q-card-section>
 
         <q-card-section class="flex flex-center q-pt-xs">
@@ -117,18 +140,6 @@
         <q-card-section class="flex flex-center q-pt-md q-pb-md">
           <div class="column items-center">
             <div class="col">
-              <span class="q-pr-xs">Don't have an account yet?</span>
-              <q-btn
-                flat
-                id="q-btn-sign-up-now"
-                label="Sign up now"
-                href="/sign-up"
-                color="primary"
-                padding="none"
-                :no-caps="true"
-              />
-            </div>
-            <div class="col">
               <span class="q-pr-xs"
                 >Didn't receive the verification email?</span
               >
@@ -137,6 +148,18 @@
                 id="q-btn-resend-email"
                 label="Resend email"
                 href="/resend-email"
+                color="primary"
+                padding="none"
+                :no-caps="true"
+              />
+            </div>
+            <div class="col">
+              <span class="q-pr-xs">Need some help? Please</span>
+              <q-btn
+                flat
+                id="q-btn-contact-us"
+                label="contact us"
+                :href="`${urlShortenerWebLink}/#/contact-us`"
                 color="primary"
                 padding="none"
                 :no-caps="true"
@@ -158,6 +181,10 @@ export default defineComponent({
   name: "SignInPage",
 
   setup() {
+    const urlShortenerWebProtocol = process.env.URL_SHORTENER_WEB_PROTOCOL;
+    const urlShortenerWebDomain = process.env.URL_SHORTENER_WEB_DOMAIN;
+    const urlShortenerWebPort = process.env.URL_SHORTENER_WEB_PORT;
+
     const emailAddress = ref("");
     const emailAddressHasError = ref(false);
     const emailAddressErrorMsg = ref("");
@@ -166,6 +193,11 @@ export default defineComponent({
     const passwordErrorMsg = ref("");
     const isPwd = ref(true);
     const signingIn = ref(false);
+    const urlShortenerWebLink = ref(
+      `${urlShortenerWebProtocol}://${urlShortenerWebDomain}${
+        urlShortenerWebPort ? `:${urlShortenerWebPort}` : ""
+      }`
+    );
     const $q = useQuasar();
 
     const validateEmailAddressField = () => {
@@ -225,6 +257,7 @@ export default defineComponent({
       passwordErrorMsg,
       isPwd,
       signingIn,
+      urlShortenerWebLink,
       validateEmailAddressField,
       validatePasswordField,
       showNotification,
@@ -253,12 +286,14 @@ export default defineComponent({
           });
 
           const { status, errorCode, message } = response.data;
-          if (status === 0 && errorCode === "ERR-SIGNIN-01") {
+          if (
+            status === 0 &&
+            ["ERR-SIGNIN-01", "ERR-SIGNIN-02", "ERR-SIGNIN-03"].includes(
+              errorCode
+            )
+          ) {
             showNotification("negative", message);
             signingIn.value = false;
-            return;
-          } else if (status === 0 && errorCode === "ERR-SIGNIN-02") {
-            window.location.href = "/reactivate-account";
             return;
           }
 
@@ -294,18 +329,21 @@ export default defineComponent({
 }
 
 #q-btn-sign-up-now,
-#q-btn-resend-email {
+#q-btn-resend-email,
+#q-btn-contact-us {
   padding-bottom: 3px !important;
 }
 #q-btn-forgot-password.q-hoverable:hover :deep(.q-focus-helper),
 #q-btn-sign-up-now.q-hoverable:hover :deep(.q-focus-helper),
-#q-btn-resend-email.q-hoverable:hover :deep(.q-focus-helper) {
+#q-btn-resend-email.q-hoverable:hover :deep(.q-focus-helper),
+#q-btn-contact-us.q-hoverable:hover :deep(.q-focus-helper) {
   background: none;
   opacity: 0;
 }
 #q-btn-forgot-password.q-hoverable:hover,
 #q-btn-sign-up-now.q-hoverable:hover,
-#q-btn-resend-email.q-hoverable:hover {
+#q-btn-resend-email.q-hoverable:hover,
+#q-btn-contact-us.q-hoverable:hover {
   color: $blue-6 !important;
 }
 </style>
