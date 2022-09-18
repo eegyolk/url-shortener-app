@@ -272,8 +272,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .signin-card {
-  width: 100%;
-  max-width: 452px;
+  width: 452px;
   background-color: #fff;
   border: 1px solid $blue-2;
 }
