@@ -1,6 +1,7 @@
 import { boot } from "quasar/wrappers";
 import axios from "axios";
 import { Cookies } from "quasar";
+import crypto from "crypto-js";
 
 // Be careful when using SSR for cross-request state pollution
 // due to creating a Singleton instance here;
@@ -30,6 +31,15 @@ api.interceptors.request.use(async (config) => {
   if (!xsrfToken) {
     await temp.get("/app/csrf-cookie");
   }
+
+  if (config.url === "/app/sign-up") {
+    const { password } = config.data;
+    const xsrfToken = Cookies.get("XSRF-TOKEN");
+
+    const hash = crypto.AES.encrypt(password, xsrfToken);
+    config.data.password = hash.toString();
+  }
+
   return config;
 });
 
