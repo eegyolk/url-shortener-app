@@ -114,19 +114,35 @@
           />
         </q-card-section>
 
-        <q-card-section
-          class="row no-wrap justify-center items-center q-pt-xs q-pb-md"
-        >
-          <span class="q-pr-xs">Don't have an account yet?</span>
-          <q-btn
-            flat
-            id="q-btn-sign-up-now"
-            padding="xs"
-            label="Sign up now"
-            href="/sign-up"
-            color="primary"
-            :no-caps="true"
-          />
+        <q-card-section class="flex flex-center q-pt-md q-pb-md">
+          <div class="column items-center">
+            <div class="col">
+              <span class="q-pr-xs">Don't have an account yet?</span>
+              <q-btn
+                flat
+                id="q-btn-sign-up-now"
+                label="Sign up now"
+                href="/sign-up"
+                color="primary"
+                padding="none"
+                :no-caps="true"
+              />
+            </div>
+            <div class="col">
+              <span class="q-pr-xs"
+                >Didn't receive the verification email?</span
+              >
+              <q-btn
+                flat
+                id="q-btn-resend-email"
+                label="Resend email"
+                href="/resend-email"
+                color="primary"
+                padding="none"
+                :no-caps="true"
+              />
+            </div>
+          </div>
         </q-card-section>
       </q-card-section>
     </q-card>
@@ -277,13 +293,19 @@ export default defineComponent({
   border: 1px solid $blue-2;
 }
 
+#q-btn-sign-up-now,
+#q-btn-resend-email {
+  padding-bottom: 3px !important;
+}
 #q-btn-forgot-password.q-hoverable:hover :deep(.q-focus-helper),
-#q-btn-sign-up-now.q-hoverable:hover :deep(.q-focus-helper) {
+#q-btn-sign-up-now.q-hoverable:hover :deep(.q-focus-helper),
+#q-btn-resend-email.q-hoverable:hover :deep(.q-focus-helper) {
   background: none;
   opacity: 0;
 }
 #q-btn-forgot-password.q-hoverable:hover,
-#q-btn-sign-up-now.q-hoverable:hover {
+#q-btn-sign-up-now.q-hoverable:hover,
+#q-btn-resend-email.q-hoverable:hover {
   color: $blue-6 !important;
 }
 </style>

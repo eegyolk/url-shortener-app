@@ -28,6 +28,18 @@ const routes = [
   },
 
   {
+    path: "/resend-email",
+    name: "resend-email",
+    component: () => import("layouts/NoLayout.vue"),
+    children: [
+      {
+        path: "",
+        component: () => import("pages/ResendVerificationEmailPage.vue"),
+      },
+    ],
+  },
+
+  {
     path: "/forgot-password",
     name: "forgot-password",
     component: () => import("layouts/NoLayout.vue"),
@@ -61,7 +73,7 @@ const routes = [
     children: [
       {
         path: "",
-        component: () => import("pages/DashboardPage.vue"),
+        component: () => import("pages/Admin/DashboardPage.vue"),
         meta: {
           requiresAuth: true,
           title: "Dashboard",
@@ -77,7 +89,7 @@ const routes = [
     children: [
       {
         path: "",
-        component: () => import("pages/AnalyticsPage.vue"),
+        component: () => import("pages/Admin/AnalyticsPage.vue"),
         meta: {
           requiresAuth: true,
           title: "Analytics",
@@ -93,7 +105,7 @@ const routes = [
     children: [
       {
         path: "",
-        component: () => import("pages/LinksPage.vue"),
+        component: () => import("pages/Admin/LinksPage.vue"),
         meta: {
           requiresAuth: true,
           title: "Links",
@@ -109,7 +121,7 @@ const routes = [
     children: [
       {
         path: "",
-        component: () => import("pages/DomainPage.vue"),
+        component: () => import("pages/Admin/DomainPage.vue"),
         meta: {
           requiresAuth: true,
           title: "Domain",
@@ -125,7 +137,7 @@ const routes = [
     children: [
       {
         path: "",
-        component: () => import("pages/TagsPage.vue"),
+        component: () => import("pages/Admin/TagsPage.vue"),
         meta: {
           requiresAuth: true,
           title: "Tags",
@@ -141,7 +153,7 @@ const routes = [
     children: [
       {
         path: "",
-        component: () => import("pages/ChannelsPage.vue"),
+        component: () => import("pages/Admin/ChannelsPage.vue"),
         meta: {
           requiresAuth: true,
           title: "Channels",
@@ -157,7 +169,7 @@ const routes = [
     children: [
       {
         path: "",
-        component: () => import("pages/UTMPage.vue"),
+        component: () => import("pages/Admin/UTMPage.vue"),
         meta: {
           requiresAuth: true,
           title: "UTM",
@@ -173,7 +185,7 @@ const routes = [
     children: [
       {
         path: "",
-        component: () => import("pages/ProfilePage.vue"),
+        component: () => import("pages/Admin/ProfilePage.vue"),
         meta: {
           requiresAuth: true,
           title: "Profile",
@@ -189,7 +201,7 @@ const routes = [
     children: [
       {
         path: "",
-        component: () => import("pages/WorkspacePage.vue"),
+        component: () => import("pages/Admin/WorkspacePage.vue"),
         meta: {
           requiresAuth: true,
           title: "Workspace",
@@ -205,7 +217,7 @@ const routes = [
     children: [
       {
         path: "",
-        component: () => import("pages/SettingsPage.vue"),
+        component: () => import("pages/Admin/SettingsPage.vue"),
         meta: {
           requiresAuth: true,
           title: "Settings",
@@ -221,7 +233,7 @@ const routes = [
     children: [
       {
         path: "",
-        component: () => import("pages/BillingPage.vue"),
+        component: () => import("pages/Admin/BillingPage.vue"),
         meta: {
           requiresAuth: true,
           title: "Billing",
