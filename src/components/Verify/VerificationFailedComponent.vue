@@ -198,7 +198,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .verify-card {
-  width: 450px;
+  width: 452px;
   height: 400px;
   background-color: #fff;
   border: 1px solid $blue-2;
