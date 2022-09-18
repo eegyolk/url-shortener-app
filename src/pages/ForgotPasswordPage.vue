@@ -1,97 +1,214 @@
 <template>
-  <q-page class="flex flex-center">
-    <q-form @submit="onSubmit">
-      <div class="flex flex-center q-pb-md" style="width: 380px">
-        <p class="text-h5">Forgot your password?</p>
+  <q-page class="flex flex-center bg-blue-1">
+    <q-card
+      class="forgot-pass-card row no-wrap justify-around items-center"
+      flat
+    >
+      <q-card-section>
+        <q-card-section class="flex flex-center">
+          <q-icon
+            size="xl"
+            :name="success ? 'mail_lock' : 'lock'"
+            :color="success ? 'green' : 'red'"
+          />
+        </q-card-section>
 
-        <span
-          >Please enter your email address. We will send you an email to reset
-          your password.</span
-        >
-      </div>
+        <q-card-section class="flex flex-center">
+          <p class="text-h6 text-weight-medium">
+            {{ success ? "Reset Email Sent" : "Forgot your password?" }}
+          </p>
+          <span v-if="!success" class="text-center">
+            Please enter your email address. We will send you an email
+            instructions to reset your password.
+          </span>
+          <span v-else class="text-center">
+            We've sent an email instruction to
+            <strong>{{ emailAddress }}</strong> to reset your password. The link
+            in the email will expire in 24 hours.
+          </span>
+        </q-card-section>
 
-      <q-input
-        outlined
-        class="q-pb-md"
-        type="email"
-        v-model="emailAddress"
-        placeholder="Email address"
-        :no-error-icon="true"
-      />
+        <q-card-section v-if="!success" class="q-py-xs q-gutter-md">
+          <q-input
+            outlined
+            dense
+            type="email"
+            placeholder="Email address"
+            v-model="emailAddress"
+            hide-bottom-space
+            :no-error-icon="true"
+            :error="emailAddressHasError"
+          >
+            <template v-slot:prepend>
+              <q-icon
+                name="email"
+                :color="emailAddressHasError ? 'red-5' : 'blue'"
+              />
+            </template>
+            <template v-slot:error>
+              <span class="text-body2 text-weight-light text-red-5">{{
+                emailAddressErrorMsg
+              }}</span>
+            </template>
+          </q-input>
+        </q-card-section>
 
-      <div class="column q-gutter-md q-py-md">
-        <q-btn
-          label="Reset password"
-          size="lg"
-          type="submit"
-          color="primary"
-          :no-caps="true"
-        />
-      </div>
+        <q-card-section class="flex flex-center">
+          <q-btn
+            v-if="!success"
+            unelevated
+            class="full-width"
+            label="Reset password"
+            type="submit"
+            color="primary"
+            :no-caps="true"
+            @click="onSubmitResetPassword"
+            :disabled="sending"
+          />
 
-      <div class="row no-wrap justify-center items-center q-py-md">
-        <span class="q-pr-xs">Need some help? Please </span>
-        <q-btn
-          flat
-          padding="none"
-          label="contact us"
-          :href="`${urlShortenerWebLink}/#/contact-us`"
-          target="_blank"
-          color="primary"
-          :no-caps="true"
-          no-wrap
-        />
-      </div>
+          <q-btn
+            v-if="!success"
+            flat
+            id="q-btn-sign-in"
+            label="Back to sign-in"
+            href="/sign-in"
+            color="primary"
+            padding="xs"
+            icon="chevron_left"
+            :no-caps="true"
+          />
 
-      <div class="row no-wrap justify-center items-center q-pb-md">
-        <span class="q-pr-xs">Got your password?</span>
-        <q-btn
-          flat
-          padding="none"
-          label="Sign in"
-          href="/sign-in"
-          color="primary"
-          :no-caps="true"
-          no-wrap
-        />
-      </div>
-    </q-form>
+          <q-btn
+            v-if="success"
+            unelevated
+            class="full-width"
+            label="Sign in now"
+            type="submit"
+            color="primary"
+            href="/sign-in"
+            :no-caps="true"
+          />
+        </q-card-section>
+      </q-card-section>
+    </q-card>
   </q-page>
 </template>
 
 <script>
 import { defineComponent, ref } from "vue";
+import { useQuasar } from "quasar";
+import { api } from "boot/axios";
 
 export default defineComponent({
   name: "ForgotPasswordPage",
 
   setup() {
-    const urlShortenerWebProtocol = process.env.URL_SHORTENER_WEB_PROTOCOL;
-    const urlShortenerWebDomain = process.env.URL_SHORTENER_WEB_DOMAIN;
-    const urlShortenerWebPort = process.env.URL_SHORTENER_WEB_PORT;
+    const emailAddress = ref("");
+    const emailAddressHasError = ref(false);
+    const emailAddressErrorMsg = ref("");
+    const sending = ref(false);
+    const success = ref(false);
+    const $q = useQuasar();
 
-    const urlShortenerWebLink = ref(
-      `${urlShortenerWebProtocol}://${urlShortenerWebDomain}${
-        urlShortenerWebPort ? `:${urlShortenerWebPort}` : ""
-      }`
-    );
-    const emailAddress = ref(null);
-    const accept = ref(false);
+    const validateEmailAddressField = () => {
+      let hasError = false;
+
+      if (emailAddress.value.length === 0) {
+        hasError = emailAddressHasError.value = true;
+        emailAddressErrorMsg.value = "This field is required";
+      } else {
+        const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if (!reg.test(emailAddress.value)) {
+          hasError = emailAddressHasError.value = true;
+          emailAddressErrorMsg.value = "Please enter a valid email address";
+        } else {
+          hasError = emailAddressHasError.value = false;
+          emailAddressErrorMsg.value = "";
+        }
+      }
+
+      return hasError;
+    };
+
+    const showNotification = (type, message) => {
+      $q.notify({
+        type,
+        position: "top",
+        message,
+      });
+    };
 
     return {
-      urlShortenerWebLink,
       emailAddress,
-      accept,
+      emailAddressHasError,
+      emailAddressErrorMsg,
+      sending,
+      success,
+      validateEmailAddressField,
+      showNotification,
 
-      onSubmit() {
-        console.log(123);
-      },
+      async onSubmitResetPassword() {
+        let hasError = false;
 
-      onReset() {
-        emailAddress.value = null;
-        accept.value = false;
+        sending.value = true;
+
+        hasError = validateEmailAddressField();
+
+        if (hasError) {
+          sending.value = false;
+          return;
+        }
+
+        try {
+          const response = await api.post("/app/forgot-password", {
+            emailAddress: emailAddress.value,
+          });
+
+          const { status, message } = response.data;
+          if (status === 0) {
+            showNotification("negative", message);
+            success.value = false;
+          } else {
+            success.value = true;
+          }
+
+          sending.value = false;
+        } catch (e) {
+          showNotification(
+            "negative",
+            "Something went wrong, please contact our support team. Thank you"
+          );
+
+          sending.value = false;
+        }
       },
     };
   },
+
+  watch: {
+    emailAddress(a, b) {
+      this.validateEmailAddressField();
+    },
+  },
 });
 </script>
+
+<style lang="scss" scoped>
+.forgot-pass-card {
+  width: 452px;
+  height: 400px;
+  background-color: #fff;
+  border: 1px solid $blue-2;
+}
+
+#q-btn-sign-in {
+  padding-top: 5px !important;
+}
+#q-btn-sign-in.q-hoverable:hover :deep(.q-focus-helper) {
+  background: none;
+  opacity: 0;
+}
+#q-btn-sign-in.q-hoverable:hover {
+  color: $blue-6 !important;
+}
+</style>
