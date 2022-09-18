@@ -5,13 +5,13 @@
         <q-card-section class="flex flex-center">
           <q-icon
             size="xl"
-            :name="success ? 'send' : 'cancel'"
+            :name="success ? 'mark_email_read' : 'cancel'"
             :color="success ? 'green' : 'red'"
           />
         </q-card-section>
 
         <q-card-section class="flex flex-center">
-          <p class="text-weight-bold">
+          <p class="text-weight-bold text-h6">
             {{ success ? "Verification Email Sent" : "Verification Failed" }}
           </p>
           <span v-if="!success" class="text-center">

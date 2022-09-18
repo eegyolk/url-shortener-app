@@ -1,16 +1,17 @@
 <template>
   <q-page class="flex flex-center bg-blue-1">
-    <q-card class="verify-card row no-wrap justify-around items-center" flat>
+    <q-card class="signup-card row no-wrap justify-around items-center" flat>
       <q-card-section>
         <q-card-section class="flex flex-center">
-          <q-icon size="xl" name="check_circle" color="green" />
+          <q-icon size="xl" name="mark_email_read" color="green" />
         </q-card-section>
 
         <q-card-section class="flex flex-center">
-          <p class="text-weight-bold text-h6">Your account is verified.</p>
+          <p class="text-weight-bold text-h6">Thanks for signing up!</p>
           <span class="text-center">
-            The address <strong>{{ emailAddress }}</strong> is now a confirmed
-            account. Thanks for helping us keeping your account secure.
+            We've sent an email to <strong>{{ emailAddress }}</strong> to verify
+            your email address and activate your account. The link in the email
+            will expire in 24 hours.
           </span>
         </q-card-section>
 
@@ -34,7 +35,7 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "VerificationSuccessComponent",
+  name: "ThankYouComponent",
 
   props: {
     emailAddress: {
@@ -46,7 +47,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.verify-card {
+.signup-card {
   width: 452px;
   height: 400px;
   background-color: #fff;
