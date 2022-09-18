@@ -7,7 +7,7 @@
         </q-card-section>
 
         <q-card-section class="flex flex-center">
-          <p class="text-weight-bold text-h6">Your account is verified.</p>
+          <p class="text-h6 text-weight-medium">Your account is verified.</p>
           <span class="text-center">
             The address <strong>{{ emailAddress }}</strong> is now a confirmed
             account. Thanks for helping us keeping your account secure.

@@ -11,7 +11,7 @@
         </q-card-section>
 
         <q-card-section class="flex flex-center">
-          <p class="text-weight-bold text-h6">
+          <p class="text-h6 text-weight-medium">
             {{
               success
                 ? "Verification Email Sent"

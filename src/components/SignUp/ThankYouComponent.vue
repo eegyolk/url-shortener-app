@@ -7,7 +7,7 @@
         </q-card-section>
 
         <q-card-section class="flex flex-center">
-          <p class="text-weight-bold text-h6">Thanks for signing up!</p>
+          <p class="text-h6 text-weight-medium">Thanks for signing up!</p>
           <span class="text-center">
             We've sent an email to <strong>{{ emailAddress }}</strong> to verify
             your email address and activate your account. The link in the email

@@ -14,7 +14,7 @@
         </q-card-section>
 
         <q-card-section class="flex flex-center">
-          <p class="text-weight-bold">
+          <p class="text-weight-medium">
             Please wait while we verify your account.
           </p>
         </q-card-section>

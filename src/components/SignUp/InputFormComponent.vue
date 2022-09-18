@@ -3,7 +3,7 @@
     <q-card class="signup-card" flat>
       <q-card-section>
         <q-card-section class="flex flex-center q-pb-xs">
-          <p class="text-h5 text-grey-9">Create new account</p>
+          <p class="text-h5 text-weight-medium">Create new account</p>
         </q-card-section>
 
         <q-card-section class="flex flex-center q-pt-xs q-gutter-md">
