@@ -8,7 +8,7 @@
         <q-card-section class="flex flex-center">
           <q-icon
             size="xl"
-            :name="success ? 'mail_lock' : 'lock'"
+            :name="success ? 'check_circle' : 'lock'"
             :color="success ? 'green' : 'red'"
           />
         </q-card-section>
