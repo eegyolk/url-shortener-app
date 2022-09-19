@@ -120,6 +120,18 @@
           />
 
           <q-btn
+            v-if="!success"
+            flat
+            id="q-btn-sign-in"
+            label="Back to sign-in"
+            href="/sign-in"
+            color="primary"
+            padding="xs"
+            icon="chevron_left"
+            :no-caps="true"
+          />
+
+          <q-btn
             v-if="success"
             unelevated
             class="full-width"
@@ -313,5 +325,16 @@ export default defineComponent({
 .q-item,
 .q-item--dense {
   min-height: 100%;
+}
+
+#q-btn-sign-in {
+  padding-top: 5px !important;
+}
+#q-btn-sign-in.q-hoverable:hover :deep(.q-focus-helper) {
+  background: none;
+  opacity: 0;
+}
+#q-btn-sign-in.q-hoverable:hover {
+  color: $blue-6 !important;
 }
 </style>
