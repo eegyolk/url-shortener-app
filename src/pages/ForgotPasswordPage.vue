@@ -118,6 +118,8 @@ export default defineComponent({
     const validateEmailAddressField = () => {
       let hasError = false;
 
+      systemError.value = "";
+
       if (emailAddress.value.length === 0) {
         hasError = emailAddressHasError.value = true;
         emailAddressErrorMsg.value = "This field is required";
