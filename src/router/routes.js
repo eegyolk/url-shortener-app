@@ -49,6 +49,15 @@ const routes = [
   },
 
   {
+    path: "/forgot-password",
+    name: "forgot-password",
+    component: () => import("layouts/NoLayout.vue"),
+    children: [
+      { path: "", component: () => import("pages/ForgotPasswordPage.vue") },
+    ],
+  },
+
+  {
     path: "/reset-password",
     name: "reset-password",
     component: () => import("layouts/NoLayout.vue"),
