@@ -29,6 +29,12 @@
         </q-card-section>
 
         <q-card-section v-if="!success" class="q-py-xs q-gutter-md">
+          <span
+            v-if="systemError"
+            class="row no-wrap justify-center text-red text-weight-medium text-body2"
+          >
+            {{ systemError }}
+          </span>
           <q-input
             outlined
             dense
@@ -96,7 +102,6 @@
 
 <script>
 import { defineComponent, ref } from "vue";
-import { useQuasar } from "quasar";
 import { api } from "boot/axios";
 
 export default defineComponent({
@@ -108,7 +113,7 @@ export default defineComponent({
     const emailAddressErrorMsg = ref("");
     const sending = ref(false);
     const success = ref(false);
-    const $q = useQuasar();
+    const systemError = ref("");
 
     const validateEmailAddressField = () => {
       let hasError = false;
@@ -130,22 +135,14 @@ export default defineComponent({
       return hasError;
     };
 
-    const showNotification = (type, message) => {
-      $q.notify({
-        type,
-        position: "top",
-        message,
-      });
-    };
-
     return {
       emailAddress,
       emailAddressHasError,
       emailAddressErrorMsg,
       sending,
       success,
+      systemError,
       validateEmailAddressField,
-      showNotification,
 
       async onSubmitResetPassword() {
         let hasError = false;
@@ -166,7 +163,7 @@ export default defineComponent({
 
           const { status, message } = response.data;
           if (status === 0) {
-            showNotification("negative", message);
+            systemError.value = message;
             success.value = false;
           } else {
             success.value = true;
@@ -174,11 +171,8 @@ export default defineComponent({
 
           sending.value = false;
         } catch (e) {
-          showNotification(
-            "negative",
-            "Something went wrong, please contact our support team. Thank you"
-          );
-
+          systemError.value =
+            "Something went wrong, please contact our support team";
           sending.value = false;
         }
       },
