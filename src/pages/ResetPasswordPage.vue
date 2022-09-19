@@ -1,111 +1,317 @@
 <template>
-  <q-page class="flex flex-center">
-    <q-form @submit="onSubmit">
-      <div class="flex flex-center q-pb-md" style="width: 380px">
-        <p class="text-h5">Reset password</p>
-      </div>
-
-      <q-input
-        outlined
-        class="q-pb-md"
-        :type="isPwd ? 'password' : 'text'"
-        v-model="newPassword"
-        placeholder="New Password"
-        :no-error-icon="true"
-      >
-        <template v-slot:append>
+  <q-page class="flex flex-center bg-blue-1">
+    <q-card class="reset-card row no-wrap justify-around items-center" flat>
+      <q-card-section>
+        <q-card-section class="flex flex-center">
           <q-icon
-            :name="isPwd ? 'visibility_off' : 'visibility'"
-            class="cursor-pointer"
-            @click="onShowPassword"
+            size="xl"
+            :name="success ? 'check_circle' : 'lock'"
+            :color="success ? 'green' : 'red'"
           />
-        </template>
-      </q-input>
+        </q-card-section>
 
-      <q-input
-        outlined
-        class="q-pb-md"
-        :type="password"
-        v-model="confirmPassword"
-        placeholder="Confirm Password"
-        :no-error-icon="true"
-      >
-      </q-input>
+        <q-card-section class="flex flex-center">
+          <p class="text-h6 text-weight-medium">
+            {{ success ? "Password updated!" : "Reset your password" }}
+          </p>
+          <span class="text-center">
+            {{
+              success
+                ? "Your password has been changed successfully. User your new password to sign in and don't share it to others."
+                : "Thanks for helping us keeping your account secure."
+            }}
+          </span>
+        </q-card-section>
 
-      <div class="column q-gutter-md q-py-md">
-        <q-btn
-          label="Reset"
-          size="lg"
-          type="submit"
-          color="primary"
-          :no-caps="true"
-        />
-      </div>
+        <q-card-section v-if="!success" class="q-py-xs q-gutter-md">
+          <span
+            v-if="systemError"
+            class="row no-wrap justify-center text-red text-weight-medium text-body2"
+          >
+            {{ systemError }}
+          </span>
+          <q-input
+            outlined
+            dense
+            placeholder="Password"
+            v-model="password"
+            hide-bottom-space
+            :type="isPwd ? 'password' : 'text'"
+            :no-error-icon="true"
+            :error="passwordsHasError"
+          >
+            <template v-slot:prepend>
+              <q-icon
+                name="key"
+                :color="passwordsHasError ? 'red-5' : 'blue'"
+              />
+            </template>
+            <template v-slot:append>
+              <q-icon
+                class="cursor-pointer"
+                :color="passwordsHasError ? 'red-5' : 'blue'"
+                :name="isPwd ? 'visibility_off' : 'visibility'"
+                @click="onTogglePasswordVisibility"
+              />
+            </template>
+          </q-input>
 
-      <div class="column q-pb-md">
-        <span class="text-subtitle2">Password must contain:</span>
-        <span>
-          <q-icon name="noise_control_off" class="text-grey" size="2em" />
-          At least one lower case letter
-        </span>
-        <span>
-          <q-icon name="close" class="text-red" size="2em" /> At least one upper
-          case letter
-        </span>
-        <span>
-          <q-icon name="check" class="text-green" size="2em" /> At least one
-          numeric
-        </span>
-        <span>
-          <q-icon name="check" class="text-green" size="2em" /> At least one
-          special character
-        </span>
-        <span>
-          <q-icon name="check" class="text-green" size="2em" /> Minimum 8
-          characters
-        </span>
-        <span>
-          <q-icon name="check" class="text-green" size="2em" /> Maximum 20
-          characters
-        </span>
-      </div>
-    </q-form>
+          <q-input
+            outlined
+            dense
+            placeholder="Confirm password"
+            v-model="confirmPassword"
+            hide-bottom-space
+            :type="isConfirmPwd ? 'password' : 'text'"
+            :no-error-icon="true"
+            :error="passwordsHasError"
+          >
+            <template v-slot:prepend>
+              <q-icon
+                name="key"
+                :color="passwordsHasError ? 'red-5' : 'blue'"
+              />
+            </template>
+            <template v-slot:append>
+              <q-icon
+                class="cursor-pointer"
+                :color="passwordsHasError ? 'red-5' : 'blue'"
+                :name="isConfirmPwd ? 'visibility_off' : 'visibility'"
+                @click="onToggleConfirmPasswordVisibility"
+              />
+            </template>
+          </q-input>
+        </q-card-section>
+
+        <q-card-section v-if="!success" class="q-py-xs q-gutter-md">
+          <q-list dense>
+            <q-item v-for="(rules, index) in passwordRules" :key="index">
+              <q-item-section side>
+                <q-icon
+                  size="xs"
+                  :color="rules.passed ? 'green' : 'red'"
+                  :name="rules.passed ? 'check' : 'cancel'"
+                />
+              </q-item-section>
+              <q-item-section
+                :class="[
+                  'text-body2',
+                  'text-weight-light',
+                  rules.passed ? 'text-green' : 'text-red',
+                ]"
+              >
+                {{ rules.label }}
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-card-section>
+
+        <q-card-section class="flex flex-center">
+          <q-btn
+            v-if="!success"
+            unelevated
+            class="full-width"
+            label="Reset password"
+            type="submit"
+            color="primary"
+            :no-caps="true"
+            @click="onSubmitResetPassword"
+            :disabled="resetting"
+          />
+
+          <q-btn
+            v-if="success"
+            unelevated
+            class="full-width"
+            label="Sign in now"
+            type="submit"
+            color="primary"
+            href="/sign-in"
+            :no-caps="true"
+          />
+        </q-card-section>
+      </q-card-section>
+    </q-card>
   </q-page>
 </template>
 
 <script>
 import { defineComponent, ref } from "vue";
+import { useQuasar } from "quasar";
+import { api } from "boot/axios";
+
+const passwordRuleSet = [
+  { passed: false, label: "Password is required", regex: /.{1,}/, field: 1 },
+  {
+    passed: false,
+    label: "Confirm password is required",
+    regex: /.{1,}/,
+    field: 2,
+  },
+  { passed: false, label: "Passwords should match", regex: null, field: 3 },
+  {
+    passed: false,
+    label: "At least 8 characters long",
+    regex: /.{8,}/,
+    field: 1,
+  },
+  { passed: false, label: "At least 1 uppercase", regex: /[A-Z]/, field: 1 },
+  { passed: false, label: "At least 1 lowercase", regex: /[a-z]/, field: 1 },
+  { passed: false, label: "At least 1 numeric", regex: /\d/, field: 1 },
+  {
+    passed: false,
+    label: "At least 1 special character",
+    regex: /\W/,
+    field: 1,
+  },
+];
 
 export default defineComponent({
   name: "ResetPasswordPage",
 
   setup() {
-    const newPassword = ref(null);
-    const confirmPassword = ref(null);
+    const resetBase64 = ref("");
+    const password = ref("");
+    const confirmPassword = ref("");
+    const passwordsHasError = ref(false);
     const isPwd = ref(true);
-    const accept = ref(false);
+    const isConfirmPwd = ref(true);
+    const passwordRules = ref(passwordRuleSet);
+    const resetting = ref(false);
+    const success = ref(false);
+    const systemError = ref("");
+
+    const validatePasswordFields = () => {
+      let hasError = false;
+
+      passwordRules.value.forEach((rule) => {
+        if (rule.field === 1) {
+          rule.passed = rule.regex.test(password.value);
+        } else if (rule.field === 2) {
+          rule.passed = rule.regex.test(confirmPassword.value);
+        } else if (rule.field === 3) {
+          rule.passed = false;
+        }
+      });
+
+      const foundFailed = passwordRules.value.findIndex(
+        (item) => !item.passed && item.field !== 3
+      );
+      if (foundFailed >= 0) {
+        hasError = passwordsHasError.value = true;
+      } else {
+        hasError = passwordsHasError.value = false;
+      }
+
+      if (foundFailed < 0) {
+        const foundField3 = passwordRules.value.findIndex(
+          (item) => item.field === 3
+        );
+        if (foundField3) {
+          if (password.value === confirmPassword.value) {
+            passwordRules.value[foundField3].passed = true;
+            hasError = passwordsHasError.value = false;
+          } else {
+            passwordRules.value[foundField3].passed = false;
+            hasError = passwordsHasError.value = true;
+          }
+        }
+      }
+
+      return hasError;
+    };
 
     return {
-      newPassword,
+      resetBase64,
+      password,
       confirmPassword,
+      passwordsHasError,
       isPwd,
-      accept,
+      isConfirmPwd,
+      passwordRules,
+      resetting,
+      success,
+      systemError,
+      validatePasswordFields,
 
-      onSubmit() {
-        console.log(123);
-      },
-
-      onReset() {
-        newPassword.value = null;
-        confirmPassword.value = null;
-        isPwd.value = true;
-        accept.value = false;
-      },
-
-      onShowPassword() {
+      onTogglePasswordVisibility() {
         isPwd.value = !isPwd.value;
+      },
+      onToggleConfirmPasswordVisibility() {
+        isConfirmPwd.value = !isConfirmPwd.value;
+      },
+
+      async onSubmitResetPassword() {
+        let hasError = false;
+
+        resetting.value = true;
+
+        hasError = validatePasswordFields();
+
+        if (hasError) {
+          resetting.value = false;
+          return;
+        }
+
+        try {
+          const response = await api.post("/app/reset-password", {
+            resetBase64: decodeURIComponent(resetBase64.value),
+            password: password.value,
+            password_confirmation: confirmPassword.value,
+          });
+
+          const { status, message } = response.data;
+          if (status === 0) {
+            systemError.value = message;
+            success.value = false;
+          } else {
+            success.value = true;
+          }
+
+          resetting.value = false;
+        } catch (e) {
+          systemError.value =
+            "Something went wrong, please contact our support team";
+          resetting.value = false;
+        }
       },
     };
   },
+
+  mounted() {
+    const query = this.$route.query;
+
+    if (query.hasOwnProperty("q") && query.q !== null && query.q.length > 0) {
+      this.resetBase64 = query.q;
+    } else {
+      window.location.href = "/sign-in";
+    }
+  },
+
+  watch: {
+    password(a, b) {
+      this.validatePasswordFields();
+    },
+    confirmPassword(a, b) {
+      this.validatePasswordFields();
+    },
+  },
 });
 </script>
+
+<style lang="scss" scoped>
+.reset-card {
+  width: 452px;
+  background-color: #fff;
+  border: 1px solid $blue-2;
+}
+
+.q-item:nth-child(1),
+.q-item--dense {
+  padding-top: 10px;
+}
+.q-item,
+.q-item--dense {
+  min-height: 100%;
+}
+</style>
