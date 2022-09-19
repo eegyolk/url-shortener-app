@@ -40,6 +40,14 @@ api.interceptors.request.use(async (config) => {
     config.data.password = hash.toString();
   }
 
+  if (config.url === "/app/reset-password") {
+    const { password } = config.data;
+    const xsrfToken = Cookies.get("XSRF-TOKEN");
+
+    const hash = crypto.AES.encrypt(password, xsrfToken);
+    config.data.password = config.data.password_confirmation = hash.toString();
+  }
+
   return config;
 });
 
