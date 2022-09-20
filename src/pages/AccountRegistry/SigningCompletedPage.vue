@@ -3,15 +3,14 @@
     <q-card class="signup-card row no-wrap justify-around items-center" flat>
       <q-card-section>
         <q-card-section class="flex flex-center">
-          <q-icon size="xl" name="mark_email_read" color="green" />
+          <q-icon size="xl" name="check_circle" color="green" />
         </q-card-section>
 
         <q-card-section class="flex flex-center">
           <p class="text-h6 text-weight-medium">Thanks for signing up!</p>
           <span class="text-center">
-            We've sent an email to <strong>{{ emailAddress }}</strong> to verify
-            your email address and activate your account. The link in the email
-            will expire in 24 hours.
+            We've sent an email to verify your email address and activate your
+            account. The link in the email will expire in 24 hours.
           </span>
         </q-card-section>
 
@@ -32,16 +31,15 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
-  name: "ThankYouComponent",
+  name: "SigningCompletedPage",
 
-  props: {
-    emailAddress: {
-      type: String,
-      required: true,
-    },
+  beforeRouteEnter(to, from) {
+    if (to.path !== "/signing-completed" || from.path !== "/sign-up") {
+      window.location.href = "/sign-in";
+    }
   },
 });
 </script>

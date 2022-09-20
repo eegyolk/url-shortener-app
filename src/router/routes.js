@@ -3,30 +3,55 @@ const routes = [
     path: "/ ",
     alias: "",
     component: () => import("layouts/NoLayout.vue"),
-    children: [{ path: "", component: () => import("pages/SignInPage.vue") }],
+    children: [
+      {
+        path: "",
+        component: () => import("pages/SignInPage.vue"),
+      },
+    ],
   },
-
   {
     path: "/sign-in",
     name: "sign-in",
     component: () => import("layouts/NoLayout.vue"),
-    children: [{ path: "", component: () => import("pages/SignInPage.vue") }],
+    children: [
+      {
+        path: "",
+        component: () => import("pages/SignInPage.vue"),
+      },
+    ],
   },
 
+  // Account Registry - Begin
   {
     path: "/sign-up",
     name: "sign-up",
     component: () => import("layouts/NoLayout.vue"),
-    children: [{ path: "", component: () => import("pages/SignUpPage.vue") }],
+    children: [
+      {
+        path: "",
+        component: () => import("pages/AccountRegistry/SignUpPage.vue"),
+      },
+    ],
   },
-
+  {
+    path: "/signing-completed",
+    name: "signing-completed",
+    component: () => import("layouts/NoLayout.vue"),
+    children: [
+      {
+        path: "",
+        component: () =>
+          import("pages/AccountRegistry/SigningCompletedPage.vue"),
+      },
+    ],
+  },
   {
     path: "/verify",
     name: "verify",
     component: () => import("layouts/NoLayout.vue"),
     children: [{ path: "", component: () => import("pages/VerifyPage.vue") }],
   },
-
   {
     path: "/resend-email",
     name: "resend-email",
@@ -38,6 +63,7 @@ const routes = [
       },
     ],
   },
+  // Account Registry - End
 
   // Password Recovery - Begin
   {

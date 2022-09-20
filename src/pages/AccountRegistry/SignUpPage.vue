@@ -39,6 +39,13 @@
         </q-card-section>
 
         <q-card-section class="q-py-xs q-gutter-md">
+          <span
+            v-if="systemError"
+            class="row no-wrap justify-center text-red text-weight-medium text-body2"
+          >
+            {{ systemError }}
+          </span>
+
           <q-input
             outlined
             dense
@@ -204,7 +211,7 @@
 
 <script>
 import { defineComponent, ref } from "vue";
-import { useQuasar } from "quasar";
+import { useRouter } from "vue-router";
 import { api } from "boot/axios";
 
 const passwordRuleSet = [
@@ -219,7 +226,7 @@ const passwordRuleSet = [
 export default defineComponent({
   name: "InputFormComponent",
 
-  setup(props, { emit }) {
+  setup() {
     const urlShortenerWebProtocol = process.env.URL_SHORTENER_WEB_PROTOCOL;
     const urlShortenerWebDomain = process.env.URL_SHORTENER_WEB_DOMAIN;
     const urlShortenerWebPort = process.env.URL_SHORTENER_WEB_PORT;
@@ -239,7 +246,8 @@ export default defineComponent({
         urlShortenerWebPort ? `:${urlShortenerWebPort}` : ""
       }`
     );
-    const $q = useQuasar();
+    const systemError = ref("");
+    const router = useRouter();
 
     const validateFullNameField = () => {
       let hasError = false;
@@ -298,14 +306,6 @@ export default defineComponent({
       return hasError;
     };
 
-    const showNotification = (type, message) => {
-      $q.notify({
-        type,
-        position: "top",
-        message,
-      });
-    };
-
     return {
       fullName,
       fullNameHasError,
@@ -322,7 +322,7 @@ export default defineComponent({
       validateFullNameField,
       validateEmailAddressField,
       validatePasswordField,
-      showNotification,
+      systemError,
 
       onTogglePasswordVisibility() {
         isPwd.value = !isPwd.value;
@@ -349,23 +349,16 @@ export default defineComponent({
             password: password.value,
           });
 
-          const { status, errorCode, message } = response.data;
-          if (status === 0 && errorCode === "ERR-SIGNUP-01") {
-            emailAddressHasError.value = true;
-            emailAddressErrorMsg.value = message;
+          const { status, message } = response.data;
+          if (status === 0) {
+            systemError.value = message;
             signingUp.value = false;
-            return;
+          } else {
+            router.replace("/signing-completed");
           }
-
-          emit("onSignUpSuccess", {
-            success: true,
-            emailAddress: emailAddress.value,
-          });
         } catch (e) {
-          showNotification(
-            "negative",
-            "Something went wrong, please contact our support team. Thank you"
-          );
+          systemError.value =
+            "Something went wrong, please contact our support team ";
           signingUp.value = false;
         }
       },
