@@ -39,32 +39,56 @@ const routes = [
     ],
   },
 
+  // Password Recovery - Begin
   {
     path: "/forgot-password",
     name: "forgot-password",
     component: () => import("layouts/NoLayout.vue"),
     children: [
-      { path: "", component: () => import("pages/ForgotPasswordPage.vue") },
+      {
+        path: "",
+        component: () =>
+          import("pages/PasswordRecovery/ForgotPasswordPage.vue"),
+      },
     ],
   },
-
   {
-    path: "/forgot-password",
-    name: "forgot-password",
+    path: "/recovery-emailed",
+    name: "recovery-emailed",
+    props: true,
     component: () => import("layouts/NoLayout.vue"),
     children: [
-      { path: "", component: () => import("pages/ForgotPasswordPage.vue") },
+      {
+        path: "",
+        component: () =>
+          import("pages/PasswordRecovery/RecoveryEmailedPage.vue"),
+      },
     ],
   },
-
   {
     path: "/reset-password",
     name: "reset-password",
     component: () => import("layouts/NoLayout.vue"),
     children: [
-      { path: "", component: () => import("pages/ResetPasswordPage.vue") },
+      {
+        path: "",
+        component: () => import("pages/PasswordRecovery/ResetPasswordPage.vue"),
+      },
     ],
   },
+  {
+    path: "/password-updated",
+    name: "password-updated",
+    component: () => import("layouts/NoLayout.vue"),
+    children: [
+      {
+        path: "",
+        component: () =>
+          import("pages/PasswordRecovery/PasswordUpdatedPage.vue"),
+      },
+    ],
+  },
+  // Password Recovery - End
 
   {
     path: "/dashboard",

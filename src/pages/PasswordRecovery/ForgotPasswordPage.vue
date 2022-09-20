@@ -1,34 +1,23 @@
 <template>
   <q-page class="flex flex-center bg-blue-1">
     <q-card
-      class="forgot-pass-card row no-wrap justify-around items-center"
+      class="forgot-password-card row no-wrap justify-around items-center"
       flat
     >
       <q-card-section>
         <q-card-section class="flex flex-center">
-          <q-icon
-            size="xl"
-            :name="success ? 'check_circle' : 'lock'"
-            :color="success ? 'green' : 'red'"
-          />
+          <q-icon size="xl" name="lock" color="red" />
         </q-card-section>
 
         <q-card-section class="flex flex-center">
-          <p class="text-h6 text-weight-medium">
-            {{ success ? "Reset Email Sent" : "Forgot your password?" }}
-          </p>
-          <span v-if="!success" class="text-center">
+          <p class="text-h6 text-weight-medium">Forgot your password?</p>
+          <span class="text-center">
             Please enter your email address. We will send you an email
             instructions to reset your password.
           </span>
-          <span v-else class="text-center">
-            We've sent an email instruction to
-            <strong>{{ emailAddress }}</strong> to reset your password. The link
-            in the email will expire in 24 hours.
-          </span>
         </q-card-section>
 
-        <q-card-section v-if="!success" class="q-py-xs q-gutter-md">
+        <q-card-section class="q-py-xs q-gutter-md">
           <span
             v-if="systemError"
             class="row no-wrap justify-center text-red text-weight-medium text-body2"
@@ -61,7 +50,6 @@
 
         <q-card-section class="flex flex-center">
           <q-btn
-            v-if="!success"
             unelevated
             class="full-width"
             label="Reset password"
@@ -73,7 +61,6 @@
           />
 
           <q-btn
-            v-if="!success"
             flat
             id="q-btn-sign-in"
             label="Back to sign-in"
@@ -81,17 +68,6 @@
             color="primary"
             padding="xs"
             icon="chevron_left"
-            :no-caps="true"
-          />
-
-          <q-btn
-            v-if="success"
-            unelevated
-            class="full-width"
-            label="Sign in now"
-            type="submit"
-            color="primary"
-            href="/sign-in"
             :no-caps="true"
           />
         </q-card-section>
@@ -102,6 +78,7 @@
 
 <script>
 import { defineComponent, ref } from "vue";
+import { useRouter } from "vue-router";
 import { api } from "boot/axios";
 
 export default defineComponent({
@@ -112,8 +89,8 @@ export default defineComponent({
     const emailAddressHasError = ref(false);
     const emailAddressErrorMsg = ref("");
     const sending = ref(false);
-    const success = ref(false);
     const systemError = ref("");
+    const router = useRouter();
 
     const validateEmailAddressField = () => {
       let hasError = false;
@@ -142,7 +119,6 @@ export default defineComponent({
       emailAddressHasError,
       emailAddressErrorMsg,
       sending,
-      success,
       systemError,
       validateEmailAddressField,
 
@@ -166,12 +142,10 @@ export default defineComponent({
           const { status, message } = response.data;
           if (status === 0) {
             systemError.value = message;
-            success.value = false;
+            sending.value = false;
           } else {
-            success.value = true;
+            router.replace("/recovery-emailed");
           }
-
-          sending.value = false;
         } catch (e) {
           systemError.value =
             "Something went wrong, please contact our support team";
@@ -190,7 +164,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.forgot-pass-card {
+.forgot-password-card {
   width: 452px;
   height: 400px;
   background-color: #fff;

@@ -1,35 +1,29 @@
 <template>
   <q-page class="flex flex-center bg-blue-1">
-    <q-card class="reset-card row no-wrap justify-around items-center" flat>
+    <q-card
+      class="reset-password-card row no-wrap justify-around items-center"
+      flat
+    >
       <q-card-section>
         <q-card-section class="flex flex-center">
-          <q-icon
-            size="xl"
-            :name="success ? 'check_circle' : 'lock'"
-            :color="success ? 'green' : 'red'"
-          />
+          <q-icon size="xl" name="lock" color="red" />
         </q-card-section>
 
         <q-card-section class="flex flex-center">
-          <p class="text-h6 text-weight-medium">
-            {{ success ? "Password updated!" : "Reset your password" }}
-          </p>
+          <p class="text-h6 text-weight-medium">Reset your password</p>
           <span class="text-center">
-            {{
-              success
-                ? "Your password has been changed successfully. User your new password to sign in and don't share it to others."
-                : "Thanks for helping us keeping your account secure."
-            }}
+            Thanks for helping us keeping your account secure.
           </span>
         </q-card-section>
 
-        <q-card-section v-if="!success" class="q-py-xs q-gutter-md">
+        <q-card-section class="q-py-xs q-gutter-md">
           <span
             v-if="systemError"
             class="row no-wrap justify-center text-red text-weight-medium text-body2"
           >
             {{ systemError }}
           </span>
+
           <q-input
             outlined
             dense
@@ -83,7 +77,7 @@
           </q-input>
         </q-card-section>
 
-        <q-card-section v-if="!success" class="q-py-xs q-gutter-md">
+        <q-card-section class="q-py-xs q-gutter-md">
           <q-list dense>
             <q-item v-for="(rules, index) in passwordRules" :key="index">
               <q-item-section side>
@@ -108,7 +102,6 @@
 
         <q-card-section class="flex flex-center">
           <q-btn
-            v-if="!success"
             unelevated
             class="full-width"
             label="Reset password"
@@ -120,7 +113,6 @@
           />
 
           <q-btn
-            v-if="!success"
             flat
             id="q-btn-sign-in"
             label="Back to sign-in"
@@ -128,17 +120,6 @@
             color="primary"
             padding="xs"
             icon="chevron_left"
-            :no-caps="true"
-          />
-
-          <q-btn
-            v-if="success"
-            unelevated
-            class="full-width"
-            label="Sign in now"
-            type="submit"
-            color="primary"
-            href="/sign-in"
             :no-caps="true"
           />
         </q-card-section>
@@ -149,7 +130,7 @@
 
 <script>
 import { defineComponent, ref } from "vue";
-import { useQuasar } from "quasar";
+import { useRouter } from "vue-router";
 import { api } from "boot/axios";
 
 const passwordRuleSet = [
@@ -190,8 +171,8 @@ export default defineComponent({
     const isConfirmPwd = ref(true);
     const passwordRules = ref(passwordRuleSet);
     const resetting = ref(false);
-    const success = ref(false);
     const systemError = ref("");
+    const router = useRouter();
 
     const validatePasswordFields = () => {
       let hasError = false;
@@ -242,7 +223,6 @@ export default defineComponent({
       isConfirmPwd,
       passwordRules,
       resetting,
-      success,
       systemError,
       validatePasswordFields,
 
@@ -275,12 +255,10 @@ export default defineComponent({
           const { status, message } = response.data;
           if (status === 0) {
             systemError.value = message;
-            success.value = false;
+            resetting.value = false;
           } else {
-            success.value = true;
+            router.replace("/password-updated");
           }
-
-          resetting.value = false;
         } catch (e) {
           systemError.value =
             "Something went wrong, please contact our support team";
@@ -312,7 +290,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.reset-card {
+.reset-password-card {
   width: 452px;
   background-color: #fff;
   border: 1px solid $blue-2;
