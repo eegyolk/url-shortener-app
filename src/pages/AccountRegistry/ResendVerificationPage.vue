@@ -103,12 +103,12 @@ export default defineComponent({
 
       if (emailAddress.value.length === 0) {
         hasError = emailAddressHasError.value = true;
-        emailAddressErrorMsg.value = "This field is required";
+        emailAddressErrorMsg.value = "This field is required.";
       } else {
         const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if (!reg.test(emailAddress.value)) {
           hasError = emailAddressHasError.value = true;
-          emailAddressErrorMsg.value = "Please enter a valid email address";
+          emailAddressErrorMsg.value = "Please enter a valid email address.";
         } else {
           hasError = emailAddressHasError.value = false;
           emailAddressErrorMsg.value = "";
@@ -158,7 +158,7 @@ export default defineComponent({
           }
         } catch (e) {
           systemError.value =
-            "Something went wrong, please contact our support team";
+            "Something went wrong, please contact our support team.";
           sending.value = false;
         }
       },

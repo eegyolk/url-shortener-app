@@ -108,7 +108,7 @@ export default defineComponent({
           }
         } catch (e) {
           systemError.value =
-            "Something went wrong, please contact our support team";
+            "Something went wrong, please contact our support team.";
         }
       },
     };

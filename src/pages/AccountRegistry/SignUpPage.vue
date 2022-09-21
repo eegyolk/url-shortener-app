@@ -254,12 +254,12 @@ export default defineComponent({
 
       if (fullName.value.length === 0) {
         hasError = fullNameHasError.value = true;
-        fullNameErrorMsg.value = "This field is required";
+        fullNameErrorMsg.value = "This field is required.";
       } else {
         const reg = /.{3,}/;
         if (!reg.test(fullName.value)) {
           hasError = fullNameHasError.value = true;
-          fullNameErrorMsg.value = "Please enter at least 3 character name";
+          fullNameErrorMsg.value = "Please enter at least 3 character name.";
         } else {
           hasError = fullNameHasError.value = false;
           fullNameErrorMsg.value = "";
@@ -274,12 +274,12 @@ export default defineComponent({
 
       if (emailAddress.value.length === 0) {
         hasError = emailAddressHasError.value = true;
-        emailAddressErrorMsg.value = "This field is required";
+        emailAddressErrorMsg.value = "This field is required.";
       } else {
         const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if (!reg.test(emailAddress.value)) {
           hasError = emailAddressHasError.value = true;
-          emailAddressErrorMsg.value = "Please enter a valid email address";
+          emailAddressErrorMsg.value = "Please enter a valid email address.";
         } else {
           hasError = emailAddressHasError.value = false;
           emailAddressErrorMsg.value = "";
@@ -358,7 +358,7 @@ export default defineComponent({
           }
         } catch (e) {
           systemError.value =
-            "Something went wrong, please contact our support team ";
+            "Something went wrong, please contact our support team.";
           signingUp.value = false;
         }
       },
