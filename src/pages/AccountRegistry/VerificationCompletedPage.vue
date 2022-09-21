@@ -31,16 +31,36 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
+import { Cookies } from "quasar";
+import crypto from "crypto-js";
 
 export default defineComponent({
-  name: "VerificationSuccessComponent",
+  name: "VerificationCompletedPage",
 
-  props: {
-    emailAddress: {
-      type: String,
-      required: true,
-    },
+  setup() {
+    const emailAddress = ref("");
+
+    return {
+      emailAddress,
+    };
+  },
+
+  beforeRouteEnter(to, from) {
+    if (
+      to.path !== "/verification-completed" ||
+      from.path !== "/verify-account"
+    ) {
+      window.location.href = "/sign-in";
+    }
+  },
+
+  mounted() {
+    const { query } = this.$route;
+    const xsrfToken = Cookies.get("XSRF-TOKEN");
+
+    const hash = crypto.AES.decrypt(decodeURIComponent(query.q), xsrfToken);
+    this.emailAddress = hash.toString(crypto.enc.Utf8);
   },
 });
 </script>

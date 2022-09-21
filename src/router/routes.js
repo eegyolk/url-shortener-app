@@ -47,10 +47,27 @@ const routes = [
     ],
   },
   {
-    path: "/verify",
-    name: "verify",
+    path: "/verify-account",
+    name: "verify-account",
     component: () => import("layouts/NoLayout.vue"),
-    children: [{ path: "", component: () => import("pages/VerifyPage.vue") }],
+    children: [
+      {
+        path: "",
+        component: () => import("pages/AccountRegistry/VerifyAccountPage.vue"),
+      },
+    ],
+  },
+  {
+    path: "/verification-completed",
+    name: "verification-completed",
+    component: () => import("layouts/NoLayout.vue"),
+    children: [
+      {
+        path: "",
+        component: () =>
+          import("pages/AccountRegistry/VerificationCompletedPage.vue"),
+      },
+    ],
   },
   {
     path: "/resend-email",
