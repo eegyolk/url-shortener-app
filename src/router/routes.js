@@ -8,6 +8,9 @@ const routes = [
       {
         path: "",
         component: () => import("pages/Authentication/SignInPage.vue"),
+        meta: {
+          requiresAuth: false,
+        },
       },
     ],
   },
@@ -19,6 +22,9 @@ const routes = [
       {
         path: "",
         component: () => import("pages/Authentication/SignInPage.vue"),
+        meta: {
+          requiresAuth: false,
+        },
       },
     ],
   },
@@ -33,6 +39,9 @@ const routes = [
       {
         path: "",
         component: () => import("pages/AccountRegistry/SignUpPage.vue"),
+        meta: {
+          requiresAuth: false,
+        },
       },
     ],
   },
@@ -45,6 +54,9 @@ const routes = [
         path: "",
         component: () =>
           import("pages/AccountRegistry/SigningCompletedPage.vue"),
+        meta: {
+          requiresAuth: false,
+        },
       },
     ],
   },
@@ -56,6 +68,9 @@ const routes = [
       {
         path: "",
         component: () => import("pages/AccountRegistry/VerifyAccountPage.vue"),
+        meta: {
+          requiresAuth: false,
+        },
       },
     ],
   },
@@ -68,6 +83,9 @@ const routes = [
         path: "",
         component: () =>
           import("pages/AccountRegistry/VerificationCompletedPage.vue"),
+        meta: {
+          requiresAuth: false,
+        },
       },
     ],
   },
@@ -80,6 +98,9 @@ const routes = [
         path: "",
         component: () =>
           import("pages/AccountRegistry/ResendVerificationPage.vue"),
+        meta: {
+          requiresAuth: false,
+        },
       },
     ],
   },
@@ -92,6 +113,9 @@ const routes = [
         path: "",
         component: () =>
           import("pages/AccountRegistry/ResendCompletedPage.vue"),
+        meta: {
+          requiresAuth: false,
+        },
       },
     ],
   },
@@ -107,6 +131,9 @@ const routes = [
         path: "",
         component: () =>
           import("pages/PasswordRecovery/ForgotPasswordPage.vue"),
+        meta: {
+          requiresAuth: false,
+        },
       },
     ],
   },
@@ -120,6 +147,9 @@ const routes = [
         path: "",
         component: () =>
           import("pages/PasswordRecovery/RecoveryEmailedPage.vue"),
+        meta: {
+          requiresAuth: false,
+        },
       },
     ],
   },
@@ -131,6 +161,9 @@ const routes = [
       {
         path: "",
         component: () => import("pages/PasswordRecovery/ResetPasswordPage.vue"),
+        meta: {
+          requiresAuth: false,
+        },
       },
     ],
   },
@@ -143,6 +176,9 @@ const routes = [
         path: "",
         component: () =>
           import("pages/PasswordRecovery/PasswordUpdatedPage.vue"),
+        meta: {
+          requiresAuth: false,
+        },
       },
     ],
   },
