@@ -108,7 +108,7 @@ module.exports = configure(function (/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: ["Notify", "Cookies"],
+      plugins: ["Notify", "Cookies", "LocalStorage"],
     },
 
     // animations: 'all', // --- includes all animations
@@ -145,7 +145,6 @@ module.exports = configure(function (/* ctx */) {
 
       middlewares: [
         "render", // keep this as last one, handles vue router
-        "controller", // use for handling request from render
       ],
     },
 

@@ -6,7 +6,7 @@ import {
   createWebHashHistory,
 } from "vue-router";
 import routes from "./routes";
-import { Cookies } from "quasar";
+import { Cookies, LocalStorage } from "quasar";
 import { api } from "boot/axios";
 
 /*
@@ -35,11 +35,19 @@ export default route(function (/* { store, ssrContext } */) {
     history: createHistory(process.env.VUE_ROUTER_BASE),
   });
 
-  // Navigation guards
+  // Navigation guards for routes taht require authentication
   Router.beforeEach(async (to, from, next) => {
     if (to.meta.requiresAuth) {
       try {
         const me = await api.get("/app/me");
+
+        const lsKey = process.env.LOCAL_STORAGE_KEY_AUTHENTICATED;
+        const value = LocalStorage.getItem(lsKey);
+
+        if (!value) {
+          LocalStorage.set(lsKey, true);
+        }
+
         // TODO:: save to store
         next();
       } catch (e) {
@@ -48,6 +56,18 @@ export default route(function (/* { store, ssrContext } */) {
       }
     } else {
       next();
+    }
+  });
+
+  // Navigation guards for routes that doesn't require authentication
+  Router.afterEach((to) => {
+    if (!to.meta.requiresAuth) {
+      const lsKey = process.env.LOCAL_STORAGE_KEY_AUTHENTICATED;
+      const value = LocalStorage.getItem(lsKey);
+
+      if (value) {
+        Router.replace("/dashboard");
+      }
     }
   });
 

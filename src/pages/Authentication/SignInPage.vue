@@ -181,6 +181,7 @@
 
 <script>
 import { defineComponent, ref } from "vue";
+import { useQuasar } from "quasar";
 import { api } from "boot/axios";
 
 export default defineComponent({
@@ -205,6 +206,7 @@ export default defineComponent({
         urlShortenerWebPort ? `:${urlShortenerWebPort}` : ""
       }`
     );
+    const $q = useQuasar();
 
     const validateEmailAddressField = () => {
       let hasError = false;
@@ -294,6 +296,8 @@ export default defineComponent({
             return;
           }
 
+          const lsKey = process.env.LOCAL_STORAGE_KEY_AUTHENTICATED;
+          $q.localStorage.set(lsKey, true);
           window.location.href = "/dashboard";
         } catch (e) {
           systemError.value =
