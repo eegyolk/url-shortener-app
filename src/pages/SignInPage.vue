@@ -147,18 +147,18 @@
                 flat
                 id="q-btn-resend-email"
                 label="Resend email"
-                href="/resend-email"
+                href="/resend-verification"
                 color="primary"
                 padding="none"
                 :no-caps="true"
               />
             </div>
             <div class="col">
-              <span class="q-pr-xs">Need some help? Please</span>
+              <span class="q-pr-xs">Need some help?</span>
               <q-btn
                 flat
                 id="q-btn-contact-us"
-                label="contact us"
+                label="Contact us"
                 :href="`${urlShortenerWebLink}/#/contact-us`"
                 color="primary"
                 padding="none"

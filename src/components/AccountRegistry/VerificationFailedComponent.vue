@@ -21,10 +21,10 @@
             unelevated
             class="full-width"
             label="Send new verification link"
-            href="/resend-verification"
             type="submit"
             color="primary"
             :no-caps="true"
+            @click="onSubmitSendNewVerificaitonLink"
           />
 
           <q-btn
@@ -45,6 +45,7 @@
 
 <script>
 import { defineComponent } from "vue";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "VerificationFailedComponent",
@@ -54,6 +55,16 @@ export default defineComponent({
       type: String,
       required: true,
     },
+  },
+
+  setup() {
+    const router = useRouter();
+
+    return {
+      onSubmitSendNewVerificaitonLink() {
+        router.replace("/resend-verification");
+      },
+    };
   },
 });
 </script>
