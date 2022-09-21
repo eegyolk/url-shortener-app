@@ -38,10 +38,10 @@ export default route(function (/* { store, ssrContext } */) {
   // Navigation guards for routes taht require authentication
   Router.beforeEach(async (to, from, next) => {
     if (to.meta.requiresAuth) {
+      const lsKey = process.env.LOCAL_STORAGE_KEY_AUTHENTICATED;
+
       try {
         const me = await api.get("/app/me");
-
-        const lsKey = process.env.LOCAL_STORAGE_KEY_AUTHENTICATED;
         const value = LocalStorage.getItem(lsKey);
 
         if (!value) {
@@ -52,6 +52,7 @@ export default route(function (/* { store, ssrContext } */) {
         next();
       } catch (e) {
         Cookies.remove("XSRF-TOKEN");
+        LocalStorage.remove(lsKey);
         next("/sign-in");
       }
     } else {
