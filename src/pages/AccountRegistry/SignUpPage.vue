@@ -212,7 +212,9 @@
 <script>
 import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
+import { Cookies } from "quasar";
 import { api } from "boot/axios";
+import crypto from "crypto-js";
 
 const passwordRuleSet = [
   { passed: false, label: "Password is required", regex: /.{1,}/ },
@@ -354,7 +356,13 @@ export default defineComponent({
             systemError.value = message;
             signingUp.value = false;
           } else {
-            router.replace("/signing-completed");
+            const xsrfToken = Cookies.get("XSRF-TOKEN");
+            const hash = crypto.AES.encrypt(emailAddress.value, xsrfToken);
+
+            router.replace({
+              path: "/signing-completed",
+              query: { q: encodeURIComponent(hash.toString()) },
+            });
           }
         } catch (e) {
           systemError.value =

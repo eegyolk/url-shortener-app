@@ -9,8 +9,9 @@
         <q-card-section class="flex flex-center">
           <p class="text-h6 text-weight-medium">Thanks for signing up!</p>
           <span class="text-center">
-            We've sent an email to verify your email address and activate your
-            account. The link in the email will expire in 24 hours.
+            We've sent an email to <strong>{{ emailAddress }}</strong> to verify
+            your email address and activate your account. The link in the email
+            will expire in 24 hours.
           </span>
         </q-card-section>
 
@@ -32,14 +33,32 @@
 
 <script>
 import { defineComponent, ref } from "vue";
+import { Cookies } from "quasar";
+import crypto from "crypto-js";
 
 export default defineComponent({
   name: "SigningCompletedPage",
+
+  setup() {
+    const emailAddress = ref("");
+
+    return {
+      emailAddress,
+    };
+  },
 
   beforeRouteEnter(to, from) {
     if (to.path !== "/signing-completed" || from.path !== "/sign-up") {
       window.location.href = "/sign-in";
     }
+  },
+
+  mounted() {
+    const { query } = this.$route;
+    const xsrfToken = Cookies.get("XSRF-TOKEN");
+
+    const hash = crypto.AES.decrypt(decodeURIComponent(query.q), xsrfToken);
+    this.emailAddress = hash.toString(crypto.enc.Utf8);
   },
 });
 </script>
