@@ -1,36 +1,33 @@
 <template>
   <q-page class="flex flex-center bg-blue-1">
-    <q-card class="verify-card row no-wrap justify-around items-center" flat>
+    <q-card
+      class="resend-verification-card row no-wrap justify-around items-center"
+      flat
+    >
       <q-card-section>
         <q-card-section class="flex flex-center">
-          <q-icon
-            size="xl"
-            name="mark_email_read"
-            :color="success ? 'green' : 'red'"
-          />
+          <q-icon size="xl" name="mark_email_read" color="red" />
         </q-card-section>
 
         <q-card-section class="flex flex-center">
           <p class="text-h6 text-weight-medium">
-            {{
-              success
-                ? "Verification Email Sent"
-                : "Didn't receive the verification email?"
-            }}
+            Didn't receive the verification email?
           </p>
-          <span v-if="!success" class="text-center">
+          <span class="text-center">
             It may take a few minutes for the email to reach your inbox or may
             end up in your spam folder. Still nothing? Re-enter your email and
             try again.
           </span>
-          <span v-else class="text-center">
-            We've sent an email to <strong>{{ emailAddress }}</strong> to verify
-            your email address and activate your account. The link in the email
-            will expire in 24 hours.
-          </span>
         </q-card-section>
 
-        <q-card-section v-if="!success" class="q-py-xs q-gutter-md">
+        <q-card-section class="q-py-xs q-gutter-md">
+          <span
+            v-if="systemError"
+            class="row no-wrap justify-center text-red text-weight-medium text-body2"
+          >
+            {{ systemError }}
+          </span>
+
           <q-input
             outlined
             dense
@@ -57,7 +54,6 @@
 
         <q-card-section class="flex flex-center">
           <q-btn
-            v-if="!success"
             unelevated
             class="full-width"
             label="Send new verification link"
@@ -69,7 +65,6 @@
           />
 
           <q-btn
-            v-if="!success"
             flat
             id="q-btn-sign-in"
             label="Back to sign-in"
@@ -77,17 +72,6 @@
             color="primary"
             padding="xs"
             icon="chevron_left"
-            :no-caps="true"
-          />
-
-          <q-btn
-            v-if="success"
-            unelevated
-            class="full-width"
-            label="Sign in now"
-            type="submit"
-            color="primary"
-            href="/sign-in"
             :no-caps="true"
           />
         </q-card-section>
@@ -98,8 +82,10 @@
 
 <script>
 import { defineComponent, ref } from "vue";
-import { useQuasar } from "quasar";
+import { Cookies } from "quasar";
+import { useRouter } from "vue-router";
 import { api } from "boot/axios";
+import crypto from "crypto-js";
 
 export default defineComponent({
   name: "ResendVerificationPage",
@@ -109,8 +95,8 @@ export default defineComponent({
     const emailAddressHasError = ref(false);
     const emailAddressErrorMsg = ref("");
     const sending = ref(false);
-    const success = ref(false);
-    const $q = useQuasar();
+    const systemError = ref("");
+    const router = useRouter();
 
     const validateEmailAddressField = () => {
       let hasError = false;
@@ -132,22 +118,13 @@ export default defineComponent({
       return hasError;
     };
 
-    const showNotification = (type, message) => {
-      $q.notify({
-        type,
-        position: "top",
-        message,
-      });
-    };
-
     return {
       emailAddress,
       emailAddressHasError,
       emailAddressErrorMsg,
       sending,
-      success,
+      systemError,
       validateEmailAddressField,
-      showNotification,
 
       async onSubmitSendNewVerificationLink() {
         let hasError = false;
@@ -162,25 +139,26 @@ export default defineComponent({
         }
 
         try {
-          const response = await api.post("/app/send-verif-link", {
+          const response = await api.post("/app/resend-verification", {
             emailAddress: emailAddress.value,
           });
 
           const { status, message } = response.data;
           if (status === 0) {
-            showNotification("negative", message);
-            success.value = false;
+            systemError.value = message;
+            sending.value = false;
           } else {
-            success.value = true;
+            const xsrfToken = Cookies.get("XSRF-TOKEN");
+            const hash = crypto.AES.encrypt(emailAddress.value, xsrfToken);
+
+            router.replace({
+              path: "/resend-completed",
+              query: { q: encodeURIComponent(hash.toString()) },
+            });
           }
-
-          sending.value = false;
         } catch (e) {
-          showNotification(
-            "negative",
-            "Something went wrong, please contact our support team. Thank you"
-          );
-
+          systemError.value =
+            "Something went wrong, please contact our support team";
           sending.value = false;
         }
       },
@@ -196,7 +174,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.verify-card {
+.resend-verification-card {
   width: 452px;
   height: 400px;
   background-color: #fff;

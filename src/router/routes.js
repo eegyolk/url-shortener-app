@@ -81,6 +81,18 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/resend-completed",
+    name: "resend-completed",
+    component: () => import("layouts/NoLayout.vue"),
+    children: [
+      {
+        path: "",
+        component: () =>
+          import("pages/AccountRegistry/ResendCompletedPage.vue"),
+      },
+    ],
+  },
   // Account Registry - End
 
   // Password Recovery - Begin

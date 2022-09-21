@@ -1,7 +1,7 @@
 <template>
   <q-page class="flex flex-center bg-blue-1">
     <q-card
-      class="verification-completed-card row no-wrap justify-around items-center"
+      class="resend-completed-card row no-wrap justify-around items-center"
       flat
     >
       <q-card-section>
@@ -10,10 +10,11 @@
         </q-card-section>
 
         <q-card-section class="flex flex-center">
-          <p class="text-h6 text-weight-medium">Your account is verified.</p>
+          <p class="text-h6 text-weight-medium">Verification Email Sent</p>
           <span class="text-center">
-            The address <strong>{{ emailAddress }}</strong> is now a confirmed
-            account. Thanks for helping us keeping your account secure.
+            We've sent an email to <strong>{{ emailAddress }}</strong> to verify
+            your email address and activate your account. The link in the email
+            will expire in 24 hours.
           </span>
         </q-card-section>
 
@@ -39,7 +40,7 @@ import { Cookies } from "quasar";
 import crypto from "crypto-js";
 
 export default defineComponent({
-  name: "VerificationCompletedPage",
+  name: "ResendCompletedPage",
 
   setup() {
     const emailAddress = ref("");
@@ -51,8 +52,8 @@ export default defineComponent({
 
   beforeRouteEnter(to, from) {
     if (
-      to.path !== "/verification-completed" ||
-      from.path !== "/verify-account"
+      to.path !== "/resend-completed" ||
+      from.path !== "/resend-verification"
     ) {
       window.location.href = "/sign-in";
     }
@@ -69,10 +70,21 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.verification-completed-card {
+.resend-completed-card {
   width: 452px;
   height: 400px;
   background-color: #fff;
   border: 1px solid $blue-2;
+}
+
+#q-btn-sign-in {
+  padding-top: 5px !important;
+}
+#q-btn-sign-in.q-hoverable:hover :deep(.q-focus-helper) {
+  background: none;
+  opacity: 0;
+}
+#q-btn-sign-in.q-hoverable:hover {
+  color: $blue-6 !important;
 }
 </style>
