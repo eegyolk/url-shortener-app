@@ -79,7 +79,9 @@
 <script>
 import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
+import { Cookies } from "quasar";
 import { api } from "boot/axios";
+import crypto from "crypto-js";
 
 export default defineComponent({
   name: "ForgotPasswordPage",
@@ -144,7 +146,13 @@ export default defineComponent({
             systemError.value = message;
             sending.value = false;
           } else {
-            router.replace("/recovery-emailed");
+            const xsrfToken = Cookies.get("XSRF-TOKEN");
+            const hash = crypto.AES.encrypt(emailAddress.value, xsrfToken);
+
+            router.replace({
+              path: "/recovery-emailed",
+              query: { q: encodeURIComponent(hash.toString()) },
+            });
           }
         } catch (e) {
           systemError.value =

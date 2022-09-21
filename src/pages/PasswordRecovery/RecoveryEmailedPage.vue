@@ -12,8 +12,9 @@
         <q-card-section class="flex flex-center">
           <p class="text-h6 text-weight-medium">Recovery Email Sent</p>
           <span class="text-center">
-            We've sent an email instruction to you to reset your password. The
-            link in the email will expire in 24 hours.
+            We've sent an email instruction to
+            <strong>{{ emailAddress }}</strong> to reset your password. The link
+            in the email will expire in 24 hours.
           </span>
         </q-card-section>
 
@@ -34,15 +35,33 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
+import { Cookies } from "quasar";
+import crypto from "crypto-js";
 
 export default defineComponent({
   name: "RecoveryEmailedPage",
+
+  setup() {
+    const emailAddress = ref("");
+
+    return {
+      emailAddress,
+    };
+  },
 
   beforeRouteEnter(to, from) {
     if (to.path !== "/recovery-emailed" || from.path !== "/forgot-password") {
       window.location.href = "/sign-in";
     }
+  },
+
+  mounted() {
+    const { query } = this.$route;
+    const xsrfToken = Cookies.get("XSRF-TOKEN");
+
+    const hash = crypto.AES.decrypt(decodeURIComponent(query.q), xsrfToken);
+    this.emailAddress = hash.toString(crypto.enc.Utf8);
   },
 });
 </script>
