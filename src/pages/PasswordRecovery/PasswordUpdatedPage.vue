@@ -50,6 +50,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .password-updated-card {
   width: 452px;
+  height: 430px;
   background-color: #fff;
   border: 1px solid $blue-2;
 }

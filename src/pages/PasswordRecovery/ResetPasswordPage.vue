@@ -292,6 +292,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .reset-password-card {
   width: 452px;
+  height: 430px;
   background-color: #fff;
   border: 1px solid $blue-2;
 }
