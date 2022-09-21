@@ -62,6 +62,13 @@
         </q-card-section>
 
         <q-card-section class="q-py-xs q-gutter-md">
+          <span
+            v-if="systemError"
+            class="row no-wrap justify-center text-red text-weight-medium text-body2"
+          >
+            {{ systemError }}
+          </span>
+
           <q-input
             outlined
             dense
@@ -174,7 +181,6 @@
 
 <script>
 import { defineComponent, ref } from "vue";
-import { useQuasar } from "quasar";
 import { api } from "boot/axios";
 
 export default defineComponent({
@@ -193,24 +199,26 @@ export default defineComponent({
     const passwordErrorMsg = ref("");
     const isPwd = ref(true);
     const signingIn = ref(false);
+    const systemError = ref("");
     const urlShortenerWebLink = ref(
       `${urlShortenerWebProtocol}://${urlShortenerWebDomain}${
         urlShortenerWebPort ? `:${urlShortenerWebPort}` : ""
       }`
     );
-    const $q = useQuasar();
 
     const validateEmailAddressField = () => {
       let hasError = false;
 
+      systemError.value = "";
+
       if (emailAddress.value.length === 0) {
         hasError = emailAddressHasError.value = true;
-        emailAddressErrorMsg.value = "This field is required";
+        emailAddressErrorMsg.value = "This field is required.";
       } else {
         const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if (!reg.test(emailAddress.value)) {
           hasError = emailAddressHasError.value = true;
-          emailAddressErrorMsg.value = "Please enter a valid email address";
+          emailAddressErrorMsg.value = "Please enter a valid email address.";
         } else {
           hasError = emailAddressHasError.value = false;
           emailAddressErrorMsg.value = "";
@@ -223,14 +231,16 @@ export default defineComponent({
     const validatePasswordField = () => {
       let hasError = false;
 
+      systemError.value = "";
+
       if (password.value.length === 0) {
         hasError = passwordHasError.value = true;
-        passwordErrorMsg.value = "This field is required";
+        passwordErrorMsg.value = "This field is required.";
       } else {
         if (password.value.length < 8) {
           hasError = passwordHasError.value = true;
           passwordErrorMsg.value =
-            "Password must be at least 8 characters long";
+            "Password must be at least 8 characters long.";
         } else {
           hasError = passwordHasError.value = false;
           passwordErrorMsg.value = "";
@@ -238,14 +248,6 @@ export default defineComponent({
       }
 
       return hasError;
-    };
-
-    const showNotification = (type, message) => {
-      $q.notify({
-        type,
-        position: "top",
-        message,
-      });
     };
 
     return {
@@ -257,10 +259,10 @@ export default defineComponent({
       passwordErrorMsg,
       isPwd,
       signingIn,
+      systemError,
       urlShortenerWebLink,
       validateEmailAddressField,
       validatePasswordField,
-      showNotification,
 
       onTogglePasswordVisibility() {
         isPwd.value = !isPwd.value;
@@ -285,25 +287,17 @@ export default defineComponent({
             password: password.value,
           });
 
-          const { status, errorCode, message } = response.data;
-          if (
-            status === 0 &&
-            ["ERR-SIGNIN-01", "ERR-SIGNIN-02", "ERR-SIGNIN-03"].includes(
-              errorCode
-            )
-          ) {
-            showNotification("negative", message);
+          const { status, message } = response.data;
+          if (status === 0) {
+            systemError.value = message;
             signingIn.value = false;
             return;
           }
 
           window.location.href = "/dashboard";
         } catch (e) {
-          showNotification(
-            "negative",
-            "Something went wrong, please contact our support team. Thank you"
-          );
-
+          systemError.value =
+            "Something went wrong, please contact our support team.";
           signingIn.value = false;
         }
       },

@@ -1,4 +1,5 @@
 const routes = [
+  // Authentication - Begin
   {
     path: "/ ",
     alias: "",
@@ -6,7 +7,7 @@ const routes = [
     children: [
       {
         path: "",
-        component: () => import("pages/SignInPage.vue"),
+        component: () => import("pages/Authentication/SignInPage.vue"),
       },
     ],
   },
@@ -17,10 +18,11 @@ const routes = [
     children: [
       {
         path: "",
-        component: () => import("pages/SignInPage.vue"),
+        component: () => import("pages/Authentication/SignInPage.vue"),
       },
     ],
   },
+  // Authentication - End
 
   // Account Registry - Begin
   {
