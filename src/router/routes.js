@@ -16,11 +16,11 @@ const routes = [
   },
   {
     path: "/sign-in",
-    name: "sign-in",
     component: () => import("layouts/NoLayout.vue"),
     children: [
       {
         path: "",
+        name: "sign-in",
         component: () => import("pages/Authentication/SignInPage.vue"),
         meta: {
           requiresAuth: false,
@@ -33,11 +33,11 @@ const routes = [
   // Account Registry - Begin
   {
     path: "/sign-up",
-    name: "sign-up",
     component: () => import("layouts/NoLayout.vue"),
     children: [
       {
         path: "",
+        name: "sign-up",
         component: () => import("pages/AccountRegistry/SignUpPage.vue"),
         meta: {
           requiresAuth: false,
@@ -47,11 +47,11 @@ const routes = [
   },
   {
     path: "/signing-completed",
-    name: "signing-completed",
     component: () => import("layouts/NoLayout.vue"),
     children: [
       {
         path: "",
+        name: "signing-completed",
         component: () =>
           import("pages/AccountRegistry/SigningCompletedPage.vue"),
         meta: {
@@ -62,11 +62,11 @@ const routes = [
   },
   {
     path: "/verify-account",
-    name: "verify-account",
     component: () => import("layouts/NoLayout.vue"),
     children: [
       {
         path: "",
+        name: "verify-account",
         component: () => import("pages/AccountRegistry/VerifyAccountPage.vue"),
         meta: {
           requiresAuth: false,
@@ -76,11 +76,11 @@ const routes = [
   },
   {
     path: "/verification-completed",
-    name: "verification-completed",
     component: () => import("layouts/NoLayout.vue"),
     children: [
       {
         path: "",
+        name: "verification-completed",
         component: () =>
           import("pages/AccountRegistry/VerificationCompletedPage.vue"),
         meta: {
@@ -91,11 +91,11 @@ const routes = [
   },
   {
     path: "/resend-verification",
-    name: "resend-verification",
     component: () => import("layouts/NoLayout.vue"),
     children: [
       {
         path: "",
+        name: "resend-verification",
         component: () =>
           import("pages/AccountRegistry/ResendVerificationPage.vue"),
         meta: {
@@ -106,11 +106,11 @@ const routes = [
   },
   {
     path: "/resend-completed",
-    name: "resend-completed",
     component: () => import("layouts/NoLayout.vue"),
     children: [
       {
         path: "",
+        name: "resend-completed",
         component: () =>
           import("pages/AccountRegistry/ResendCompletedPage.vue"),
         meta: {
@@ -124,11 +124,11 @@ const routes = [
   // Password Recovery - Begin
   {
     path: "/forgot-password",
-    name: "forgot-password",
     component: () => import("layouts/NoLayout.vue"),
     children: [
       {
         path: "",
+        name: "forgot-password",
         component: () =>
           import("pages/PasswordRecovery/ForgotPasswordPage.vue"),
         meta: {
@@ -139,12 +139,11 @@ const routes = [
   },
   {
     path: "/recovery-emailed",
-    name: "recovery-emailed",
-    props: true,
     component: () => import("layouts/NoLayout.vue"),
     children: [
       {
         path: "",
+        name: "recovery-emailed",
         component: () =>
           import("pages/PasswordRecovery/RecoveryEmailedPage.vue"),
         meta: {
@@ -155,11 +154,11 @@ const routes = [
   },
   {
     path: "/reset-password",
-    name: "reset-password",
     component: () => import("layouts/NoLayout.vue"),
     children: [
       {
         path: "",
+        name: "reset-password",
         component: () => import("pages/PasswordRecovery/ResetPasswordPage.vue"),
         meta: {
           requiresAuth: false,
@@ -169,11 +168,11 @@ const routes = [
   },
   {
     path: "/password-updated",
-    name: "password-updated",
     component: () => import("layouts/NoLayout.vue"),
     children: [
       {
         path: "",
+        name: "password-updated",
         component: () =>
           import("pages/PasswordRecovery/PasswordUpdatedPage.vue"),
         meta: {
@@ -186,11 +185,11 @@ const routes = [
 
   {
     path: "/dashboard",
-    name: "dashboard",
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
         path: "",
+        name: "dashboard",
         component: () => import("pages/Admin/DashboardPage.vue"),
         meta: {
           requiresAuth: true,
@@ -202,11 +201,11 @@ const routes = [
 
   {
     path: "/analytics",
-    name: "analytics",
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
         path: "",
+        name: "analytics",
         component: () => import("pages/Admin/AnalyticsPage.vue"),
         meta: {
           requiresAuth: true,
@@ -218,11 +217,11 @@ const routes = [
 
   {
     path: "/links",
-    name: "links",
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
         path: "",
+        name: "links",
         component: () => import("pages/Admin/LinksPage.vue"),
         meta: {
           requiresAuth: true,
@@ -234,11 +233,11 @@ const routes = [
 
   {
     path: "/domain",
-    name: "domain",
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
         path: "",
+        name: "domain",
         component: () => import("pages/Admin/DomainPage.vue"),
         meta: {
           requiresAuth: true,
@@ -250,11 +249,11 @@ const routes = [
 
   {
     path: "/tags",
-    name: "tags",
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
         path: "",
+        name: "tags",
         component: () => import("pages/Admin/TagsPage.vue"),
         meta: {
           requiresAuth: true,
@@ -266,11 +265,11 @@ const routes = [
 
   {
     path: "/channels",
-    name: "channels",
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
         path: "",
+        name: "channels",
         component: () => import("pages/Admin/ChannelsPage.vue"),
         meta: {
           requiresAuth: true,
@@ -282,11 +281,11 @@ const routes = [
 
   {
     path: "/utm",
-    name: "utm",
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
         path: "",
+        name: "utm",
         component: () => import("pages/Admin/UTMPage.vue"),
         meta: {
           requiresAuth: true,
@@ -298,11 +297,11 @@ const routes = [
 
   {
     path: "/profile",
-    name: "profile",
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
         path: "",
+        name: "profile",
         component: () => import("pages/Admin/ProfilePage.vue"),
         meta: {
           requiresAuth: true,
@@ -314,11 +313,11 @@ const routes = [
 
   {
     path: "/workspace",
-    name: "workspace",
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
         path: "",
+        name: "workspace",
         component: () => import("pages/Admin/WorkspacePage.vue"),
         meta: {
           requiresAuth: true,
@@ -330,11 +329,11 @@ const routes = [
 
   {
     path: "/settings",
-    name: "settings",
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
         path: "",
+        name: "settings",
         component: () => import("pages/Admin/SettingsPage.vue"),
         meta: {
           requiresAuth: true,
@@ -346,11 +345,11 @@ const routes = [
 
   {
     path: "/billing",
-    name: "billing",
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
         path: "",
+        name: "billing",
         component: () => import("pages/Admin/BillingPage.vue"),
         meta: {
           requiresAuth: true,
