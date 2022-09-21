@@ -70,13 +70,14 @@ const routes = [
     ],
   },
   {
-    path: "/resend-email",
-    name: "resend-email",
+    path: "/resend-verification",
+    name: "resend-verification",
     component: () => import("layouts/NoLayout.vue"),
     children: [
       {
         path: "",
-        component: () => import("pages/ResendVerificationEmailPage.vue"),
+        component: () =>
+          import("pages/AccountRegistry/ResendVerificationPage.vue"),
       },
     ],
   },

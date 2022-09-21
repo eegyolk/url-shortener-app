@@ -102,7 +102,7 @@ import { useQuasar } from "quasar";
 import { api } from "boot/axios";
 
 export default defineComponent({
-  name: "ResendVerificationEmailPage",
+  name: "ResendVerificationPage",
 
   setup() {
     const emailAddress = ref("");
