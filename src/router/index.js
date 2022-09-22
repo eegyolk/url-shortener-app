@@ -7,7 +7,8 @@ import {
 } from "vue-router";
 import routes from "./routes";
 import { Cookies, LocalStorage } from "quasar";
-import { api } from "boot/axios";
+import { storeToRefs } from "pinia";
+import { useProfileStore } from "stores/profile-store";
 
 /*
  * If not building with SSR mode, you can
@@ -41,14 +42,20 @@ export default route(function (/* { store, ssrContext } */) {
       const lsKey = process.env.LOCAL_STORAGE_KEY_AUTHENTICATED;
 
       try {
-        const me = await api.get("/app/me");
+        const profileStore = useProfileStore();
+        const { isNotVerified, isDeactivated } = storeToRefs(profileStore);
+
+        await profileStore.fetchMe();
+
+        console.log(isNotVerified.value, isDeactivated.value);
+        // TODO:: route to a page the tells the user that their account is not verified or deactivated.
+
         const value = LocalStorage.getItem(lsKey);
 
         if (!value) {
           LocalStorage.set(lsKey, true);
         }
 
-        // TODO:: save to store
         next();
       } catch (e) {
         Cookies.remove("XSRF-TOKEN");
