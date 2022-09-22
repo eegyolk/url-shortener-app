@@ -1,22 +1,12 @@
 <template>
-  <q-item
-    clickable
-    dark
-    tag="a"
-    :to="link"
-    active-class="text-weight-bolder rounded-borders"
-  >
-    <q-item-section class="q-px-md" v-if="icon" avatar>
-      <q-icon :size="title === $route.meta.title ? 'md' : 'sm'" :name="icon" />
+  <q-item clickable dark v-ripple tag="a" :to="link" active-class="bg-blue-9">
+    <q-item-section v-if="icon" avatar>
+      <q-icon :class="rotate" :name="icon" />
     </q-item-section>
 
     <q-item-section>
       <q-item-label>{{ title }}</q-item-label>
     </q-item-section>
-
-    <q-tooltip v-if="showTooltip" anchor="center end" self="center end">
-      {{ title }}
-    </q-tooltip>
   </q-item>
 </template>
 
@@ -42,9 +32,9 @@ export default defineComponent({
       default: "",
     },
 
-    showTooltip: {
-      type: Boolean,
-      default: false,
+    rotate: {
+      type: String,
+      default: "",
     },
   },
 });
