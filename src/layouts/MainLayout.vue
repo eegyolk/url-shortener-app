@@ -19,7 +19,13 @@
 
         <q-space />
 
-        <q-btn flat color="primary" label="Upgrade" :no-caps="true" />
+        <q-btn
+          flat
+          color="primary"
+          label="Upgrade"
+          :no-caps="true"
+          @click="onSubmitToLogout"
+        />
         <q-btn flat round color="primary" icon="info" />
         <q-btn flat round color="primary" icon="notifications_active" />
         <q-chip color="blue-1" text-color="grey-8" :dark="false">
@@ -83,6 +89,7 @@
 <script>
 import { defineComponent, ref } from "vue";
 import { storeToRefs } from "pinia";
+import { api } from "boot/axios";
 import { useMainLayoutStore } from "stores/main-layout-store";
 import LeftSidebarLinkComponent from "components/MainLayout/LeftSidebarLinkComponent.vue";
 
@@ -167,6 +174,15 @@ export default defineComponent({
       toggleMiniDrawerVisibility,
       leftSidebarLinks1,
       leftSidebarLinks2,
+
+      async onSubmitToLogout() {
+        try {
+          const response = await api.post("/app/sign-out");
+          console.log(response);
+        } catch (e) {
+          console.error(e);
+        }
+      },
     };
   },
 });
