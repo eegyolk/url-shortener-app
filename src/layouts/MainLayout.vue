@@ -1,87 +1,81 @@
 <template>
-  <q-layout view="lHr Lpr lFr">
-    <q-header
-      class="row items-center bg-white text-grey-8"
-      style="height: 60px"
-    >
-      <q-toolbar>
-        <q-btn
-          flat
-          @click="toggleMiniDrawerVisibility"
-          round
-          dense
-          color="primary"
-          icon="menu"
-        />
-        <q-toolbar-title class="text-weight-bold">
-          {{ $route.meta.title }}
+  <q-layout view="hHh Lpr lff">
+    <q-header elevated class="bg-white text-blue-10">
+      <q-toolbar class="q-py-md q-pl-lg q-gutter-xs">
+        <q-toolbar-title class="row no-wrap items-center">
+          <img
+            src="https://app.utm.io/a676bd1b63aa6e9a.png"
+            alt="umt.io"
+            style="width: 32px"
+          />
+          <span
+            class="q-pl-sm text-weight-medium text-overline"
+            style="font-size: 1.1rem"
+            >logo.io</span
+          >
         </q-toolbar-title>
 
         <q-space />
 
-        <q-btn
+        <q-btn flat label="Upgrade" no-caps />
+        <q-btn flat round icon="info" />
+        <q-btn flat round icon="notifications_active" />
+
+        <q-btn-dropdown
           flat
-          color="primary"
-          label="Upgrade"
-          :no-caps="true"
-          @click="onSubmitToLogout"
-        />
-        <q-btn flat round color="primary" icon="info" />
-        <q-btn flat round color="primary" icon="notifications_active" />
-        <q-chip color="blue-1" text-color="grey-8" :dark="false">
-          <q-avatar size="md">
-            <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
-          </q-avatar>
-          John
-        </q-chip>
+          label="My Profile"
+          dropdown-icon="arrow_drop_down"
+          no-caps
+        >
+          <q-list>
+            <q-item class="bg-blue-1" v-close-popup>
+              <q-item-section class="row no-wrap items-center">
+                <q-avatar>
+                  <img src="https://cdn.quasar.dev/img/avatar4.jpg" />
+                </q-avatar>
+                <strong>{{ fullName }}</strong>
+              </q-item-section>
+            </q-item>
+
+            <q-item clickable v-close-popup>
+              <q-item-section>
+                <q-item-label>Videos</q-item-label>
+              </q-item-section>
+            </q-item>
+
+            <q-item clickable v-close-popup @click="onSubmitLogout">
+              <q-item-section>
+                <q-item-label>Logout</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
       </q-toolbar>
     </q-header>
 
     <q-drawer
-      class="bg-primary text-white"
-      persistent
+      v-model="drawerState"
       show-if-above
-      :mini="miniDrawerVisibility"
-      side="left"
+      :width="200"
+      :breakpoint="500"
+      bordered
+      class="bg-blue-10"
     >
-      <q-list>
-        <q-item
-          class="row no-wrap justify-center items-center"
-          style="height: 60px"
-        >
-          <q-item-section avatar>
-            <q-icon size="md" name="dashboard" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label
-              class="text-h5 text-weight-bold"
-              style="letter-spacing: 0.16667em"
-            >
-              LOGO
-            </q-item-label>
-          </q-item-section>
-        </q-item>
-
-        <LeftSidebarLinkComponent
-          v-for="link in leftSidebarLinks1"
-          :key="link.title"
-          v-bind="link"
-          :showTooltip="miniDrawerVisibility"
-        />
-
-        <div style="position: absolute; bottom: 5px; width: 100%">
+      <q-scroll-area class="fit">
+        <q-list padding>
           <LeftSidebarLinkComponent
-            v-for="link in leftSidebarLinks2"
+            v-for="link in leftSidebarLinks1"
             :key="link.title"
             v-bind="link"
-            :showTooltip="miniDrawerVisibility"
           />
-        </div>
-      </q-list>
+        </q-list>
+      </q-scroll-area>
     </q-drawer>
 
-    <q-page-container class="bg-blue-1">
-      <router-view />
+    <q-page-container>
+      <q-page padding>
+        <router-view />
+      </q-page>
     </q-page-container>
   </q-layout>
 </template>
@@ -89,96 +83,99 @@
 <script>
 import { defineComponent, ref } from "vue";
 import { storeToRefs } from "pinia";
+import { useProfileStore } from "src/stores/profile-store";
 import { api } from "boot/axios";
-import { useMainLayoutStore } from "stores/main-layout-store";
 import LeftSidebarLinkComponent from "components/MainLayout/LeftSidebarLinkComponent.vue";
 
 const linksList1 = [
   {
     title: "Dashboard",
-    icon: "speed",
+    icon: "grid_view",
     link: "/dashboard",
+    rotate: "",
   },
   {
     title: "Analytics",
     icon: "insights",
     link: "/analytics",
+    rotate: "",
   },
   {
     title: "Links",
     icon: "link",
     link: "/links",
+    rotate: "rotate-135",
   },
   {
     title: "Domain",
     icon: "domain",
     link: "/domain",
+    rotate: "",
   },
   {
     title: "Tags",
     icon: "sell",
     link: "/tags",
+    rotate: "rotate-90",
   },
   {
     title: "Channels",
     icon: "podcasts",
     link: "/channels",
+    rotate: "rotate-225",
   },
   {
-    title: "UTM Templates",
-    icon: "dynamic_feed",
+    title: "UTM",
+    icon: "assessment",
     link: "/utm",
+    rotate: "",
   },
-];
-
-const linksList2 = [
   {
     title: "Profile",
-    icon: "person_outline",
+    icon: "account_circle",
     link: "/profile",
+    rotate: "",
   },
   {
     title: "Workspace",
-    icon: "workspaces",
+    icon: "groups",
     link: "/workspace",
+    rotate: "",
   },
   {
     title: "Settings",
     icon: "settings",
     link: "/settings",
+    rotate: "",
   },
   {
     title: "Billing",
     icon: "credit_card",
     link: "/billing",
+    rotate: "",
   },
 ];
 
 export default defineComponent({
   name: "MainLayout",
 
-  components: {
-    LeftSidebarLinkComponent,
-  },
+  components: { LeftSidebarLinkComponent },
 
   setup() {
-    const mainLayoutStore = useMainLayoutStore();
-    const { miniDrawerVisibility } = storeToRefs(mainLayoutStore);
-    const { toggleMiniDrawerVisibility } = mainLayoutStore;
-
     const leftSidebarLinks1 = ref(linksList1);
-    const leftSidebarLinks2 = ref(linksList2);
+
+    const profileStore = useProfileStore();
+
+    const { fullName } = storeToRefs(profileStore);
 
     return {
-      miniDrawerVisibility,
-      toggleMiniDrawerVisibility,
       leftSidebarLinks1,
-      leftSidebarLinks2,
+      fullName,
 
-      async onSubmitToLogout() {
+      async onSubmitLogout() {
         try {
           const response = await api.post("/app/sign-out");
-          console.log(response);
+          window.location.href = "/sign-in";
         } catch (e) {
           console.error(e);
         }
