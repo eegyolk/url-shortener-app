@@ -203,7 +203,7 @@ const rows = [
 ];
 
 export default defineComponent({
-  name: "DomainPage",
+  name: "DomainsPage",
   setup() {
     return {
       separator: ref("vertical"),

@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh Lpr lff">
-    <q-header elevated class="bg-white text-blue-10">
+    <q-header bordered class="bg-white text-blue-10">
       <q-toolbar class="q-py-md q-pl-lg q-gutter-xs">
         <q-toolbar-title class="row no-wrap items-center">
           <img
@@ -17,33 +17,79 @@
 
         <q-space />
 
-        <q-btn flat label="Upgrade" no-caps />
-        <q-btn flat round icon="info" />
-        <q-btn flat round icon="notifications_active" />
+        <q-btn unelevated rounded label="Dashboard" to="/dashboard" />
+        <q-btn unelevated rounded label="Analytics" to="/analytics" />
+        <q-btn unelevated rounded label="Links" to="/links" />
+        <q-btn unelevated rounded label="Domains" to="/domains" />
+        <q-btn unelevated rounded label="Tags" to="/tags" />
+        <q-btn unelevated rounded label="Channels" to="/channels" />
+        <q-btn unelevated rounded label="UTM" to="/utm" />
+        <q-btn unelevated rounded label="Workspace" to="/workspace" />
+
+        <q-space />
+
+        <q-btn unelevated round icon="info" />
+        <q-btn unelevated round icon="notifications_active" />
 
         <q-btn-dropdown
-          flat
+          unelevated
+          rounded
           label="My Profile"
           dropdown-icon="arrow_drop_down"
           no-caps
         >
           <q-list>
-            <q-item class="bg-blue-1" v-close-popup>
+            <q-item
+              class="bg-blue-1"
+              style="border-bottom: 1px solid #e4e4e4 !important"
+              clickable
+              v-close-popup
+            >
               <q-item-section class="row no-wrap items-center">
                 <q-avatar>
                   <img src="https://cdn.quasar.dev/img/avatar4.jpg" />
                 </q-avatar>
-                <strong>{{ fullName }}</strong>
+
+                <span class="q-pt-md text-body2">
+                  <strong>{{ fullName }}</strong>
+                </span>
+
+                <span class="text-caption">
+                  {{ emailAddress }}
+                </span>
+              </q-item-section>
+            </q-item>
+
+            <q-item clickable v-close-popup class="row no-wrap">
+              <q-item-section avatar>
+                <q-icon color="primary" name="settings" />
+              </q-item-section>
+
+              <q-item-section>
+                <q-item-label>Settings</q-item-label>
               </q-item-section>
             </q-item>
 
             <q-item clickable v-close-popup>
+              <q-item-section avatar>
+                <q-icon color="primary" name="credit_card" />
+              </q-item-section>
+
               <q-item-section>
-                <q-item-label>Videos</q-item-label>
+                <q-item-label>Billing</q-item-label>
               </q-item-section>
             </q-item>
 
-            <q-item clickable v-close-popup @click="onSubmitLogout">
+            <q-item
+              clickable
+              v-close-popup
+              @click="onSubmitLogout"
+              style="border-top: 1px solid #e4e4e4 !important"
+            >
+              <q-item-section avatar>
+                <q-icon color="primary" name="logout" />
+              </q-item-section>
+
               <q-item-section>
                 <q-item-label>Logout</q-item-label>
               </q-item-section>
@@ -53,124 +99,35 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="drawerState"
-      show-if-above
-      :width="200"
-      :breakpoint="500"
-      bordered
-      class="bg-blue-10"
-    >
-      <q-scroll-area class="fit">
-        <q-list padding>
-          <LeftSidebarLinkComponent
-            v-for="link in leftSidebarLinks1"
-            :key="link.title"
-            v-bind="link"
-          />
-        </q-list>
-      </q-scroll-area>
-    </q-drawer>
-
-    <q-page-container>
-      <q-page padding>
-        <router-view />
-      </q-page>
+    <q-page-container class="row">
+      <div class="col-1"></div>
+      <div class="col-10">
+        <q-page padding>
+          <router-view />
+        </q-page>
+      </div>
+      <div class="col-1"></div>
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 import { storeToRefs } from "pinia";
 import { useProfileStore } from "src/stores/profile-store";
 import { api } from "boot/axios";
-import LeftSidebarLinkComponent from "components/MainLayout/LeftSidebarLinkComponent.vue";
-
-const linksList1 = [
-  {
-    title: "Dashboard",
-    icon: "grid_view",
-    link: "/dashboard",
-    rotate: "",
-  },
-  {
-    title: "Analytics",
-    icon: "insights",
-    link: "/analytics",
-    rotate: "",
-  },
-  {
-    title: "Links",
-    icon: "link",
-    link: "/links",
-    rotate: "rotate-135",
-  },
-  {
-    title: "Domain",
-    icon: "domain",
-    link: "/domain",
-    rotate: "",
-  },
-  {
-    title: "Tags",
-    icon: "sell",
-    link: "/tags",
-    rotate: "rotate-90",
-  },
-  {
-    title: "Channels",
-    icon: "podcasts",
-    link: "/channels",
-    rotate: "rotate-225",
-  },
-  {
-    title: "UTM",
-    icon: "assessment",
-    link: "/utm",
-    rotate: "",
-  },
-  {
-    title: "Profile",
-    icon: "account_circle",
-    link: "/profile",
-    rotate: "",
-  },
-  {
-    title: "Workspace",
-    icon: "groups",
-    link: "/workspace",
-    rotate: "",
-  },
-  {
-    title: "Settings",
-    icon: "settings",
-    link: "/settings",
-    rotate: "",
-  },
-  {
-    title: "Billing",
-    icon: "credit_card",
-    link: "/billing",
-    rotate: "",
-  },
-];
 
 export default defineComponent({
   name: "MainLayout",
 
-  components: { LeftSidebarLinkComponent },
-
   setup() {
-    const leftSidebarLinks1 = ref(linksList1);
-
     const profileStore = useProfileStore();
 
-    const { fullName } = storeToRefs(profileStore);
+    const { fullName, emailAddress } = storeToRefs(profileStore);
 
     return {
-      leftSidebarLinks1,
       fullName,
+      emailAddress,
 
       async onSubmitLogout() {
         try {

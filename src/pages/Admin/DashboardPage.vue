@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <div class="row no-wrap justify-evenly q-pt-lg">
+    <div class="flex flex-center justify-evenly q-py-lg bg-blue-1">
       <q-card class="hits-card" flat>
         <q-card-section horizontal>
           <q-card-section class="q-pt-xs">
@@ -66,7 +66,7 @@
       </q-card>
     </div>
 
-    <div class="row no-wrap justify-evenly q-py-lg">
+    <div class="flex flex-center justify-evenly q-mt-lg q-py-lg bg-blue-1">
       <q-card class="counts-card1" flat>
         <q-card-section horizontal>
           <q-card-section class="row justify-center items-center bg-primary">
@@ -140,7 +140,7 @@
       </q-card>
     </div>
 
-    <div class="row no-wrap justify-evenly q-py-lg">
+    <div class="flex flex-center justify-evenly q-mt-lg q-py-lg bg-blue-1">
       <q-card class="counts-card2" flat>
         <q-card-section horizontal>
           <q-card-section class="row justify-center items-center bg-primary">

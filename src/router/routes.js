@@ -232,16 +232,16 @@ const routes = [
   },
 
   {
-    path: "/domain",
+    path: "/domains",
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
         path: "",
-        name: "domain",
-        component: () => import("pages/Admin/DomainPage.vue"),
+        name: "domains",
+        component: () => import("pages/Admin/DomainsPage.vue"),
         meta: {
           requiresAuth: true,
-          title: "Domain",
+          title: "Domains",
         },
       },
     ],
