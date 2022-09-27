@@ -23,7 +23,7 @@
         <q-btn unelevated rounded label="Domains" to="/domains" />
         <q-btn unelevated rounded label="Tags" to="/tags" />
         <q-btn unelevated rounded label="Channels" to="/channels" />
-        <q-btn unelevated rounded label="UTM" to="/utm" />
+        <q-btn unelevated rounded label="UTM" to="/utm/templates" />
         <q-btn unelevated rounded label="Workspace" to="/workspace" />
 
         <q-space />

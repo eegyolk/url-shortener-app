@@ -91,7 +91,6 @@
                 unelevated
                 padding="none"
                 icon="cancel"
-                class="text-blue-10"
                 label="Clear filters"
                 no-caps
               />

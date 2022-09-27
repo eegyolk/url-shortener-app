@@ -284,12 +284,21 @@ const routes = [
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
-        path: "",
-        name: "utm",
-        component: () => import("pages/Admin/UTMPage.vue"),
+        path: "templates",
+        name: "templates",
+        component: () => import("pages/Admin/UTMTemplatesPage.vue"),
         meta: {
           requiresAuth: true,
-          title: "UTM",
+          title: "UTM Templates",
+        },
+      },
+      {
+        path: "parameters",
+        name: "parameters",
+        component: () => import("pages/Admin/UTMParametersPage.vue"),
+        meta: {
+          requiresAuth: true,
+          title: "UTM Parameters",
         },
       },
     ],
