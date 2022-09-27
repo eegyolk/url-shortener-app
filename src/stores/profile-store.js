@@ -12,6 +12,7 @@ export const useProfileStore = defineStore("profileStore", () => {
   const verifiedAt = ref("");
   const loggedInAt = ref("");
   const resetAt = ref("");
+  const primaryWorkspaceId = ref(0);
   const error = reactive({
     code: 0,
     message: "",
@@ -41,6 +42,7 @@ export const useProfileStore = defineStore("profileStore", () => {
         verifiedAt.value = data.verified_at;
         loggedInAt.value = data.logged_in_at;
         resetAt.value = data.reset_at;
+        primaryWorkspaceId.value = data.primary_workspace_id;
         error.code = 0;
         error.message = "";
       } else {
@@ -62,6 +64,7 @@ export const useProfileStore = defineStore("profileStore", () => {
     verifiedAt,
     loggedInAt,
     resetAt,
+    primaryWorkspaceId,
     error,
     isNotVerified,
     isDeactivated,
