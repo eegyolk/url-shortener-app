@@ -2,13 +2,45 @@
   <q-page>
     <div class="flex flex-center">
       <div class="row full-width q-mt-md q-px-lg">
-        <div class="row full-width">
-          <p
-            class="text-weight-medium"
-            style="font-size: 1.5rem; letter-spacing: 0.12rem"
-          >
-            {{ getTitle }}
-          </p>
+        <div class="row full-width q-mb-lg">
+          <div class="col-6 col-sm-6 row justify-start items-center">
+            <div class="row items-center q-pr-sm q-pb-md">
+              <q-icon size="md" name="link" class="rotate-135" />
+            </div>
+
+            <div class="row items-center">
+              <p
+                class="text-weight-medium"
+                style="font-size: 1.5rem; letter-spacing: 0.12rem"
+              >
+                {{ getTitle }}
+              </p>
+            </div>
+          </div>
+
+          <div class="col-6 col-sm-6 row justify-end items-center">
+            <div class="row items-center q-gutter-xs q-pr-md">
+              <span class="text-grey-8 text-weight-medium">Search:</span>
+              <q-input dense standout="no-shadow bg-grey-6" color="blue-10">
+                <template v-slot:append>
+                  <q-icon name="search" />
+                </template>
+              </q-input>
+            </div>
+
+            <div class="row items-center">
+              <q-btn
+                unelevated
+                padding="sm"
+                icon="playlist_add"
+                color="blue-10"
+                label="Add Link"
+                no-caps
+                style="width: 180px"
+                @click="showDialog = true"
+              />
+            </div>
+          </div>
         </div>
 
         <div class="row full-width">
@@ -17,63 +49,32 @@
               <span class="text-grey-8 text-weight-medium">Action:</span>
               <q-select
                 v-model="selectActiveStatus"
-                rounded
                 dense
                 standout="no-shadow bg-grey-6"
                 dropdown-icon="arrow_drop_down"
                 :options="options"
                 style="width: 120px"
                 bg-color="grey-3"
-              />
+              >
+                <template v-slot:append>
+                  <q-icon size="xs" name="rule" class="cursor-pointer" />
+                </template>
+              </q-select>
             </div>
 
             <div class="row items-center q-gutter-xs q-pr-md">
-              <span class="text-grey-8 text-weight-medium">Domain:</span>
-              <q-select
-                v-model="selectActiveStatus"
-                rounded
-                dense
-                standout="no-shadow bg-grey-6"
-                dropdown-icon="arrow_drop_down"
-                :options="options"
-                style="width: 120px"
-                bg-color="grey-3"
+              <q-btn
+                unelevated
+                padding="sm"
+                icon="tune"
+                color="blue-10"
+                label="Filters"
+                no-caps
+                style="width: 150px"
+                @click="showDialog = true"
               />
-            </div>
-
-            <div class="row items-center q-gutter-xs q-pr-md">
-              <span class="text-grey-8 text-weight-medium">Tag:</span>
               <q-select
                 v-model="selectActiveStatus"
-                rounded
-                dense
-                standout="no-shadow bg-grey-6"
-                dropdown-icon="arrow_drop_down"
-                :options="options"
-                style="width: 120px"
-                bg-color="grey-3"
-              />
-            </div>
-
-            <div class="row items-center q-gutter-xs q-pr-md">
-              <span class="text-grey-8 text-weight-medium">Channel:</span>
-              <q-select
-                v-model="selectActiveStatus"
-                rounded
-                dense
-                standout="no-shadow bg-grey-6"
-                dropdown-icon="arrow_drop_down"
-                :options="options"
-                style="width: 120px"
-                bg-color="grey-3"
-              />
-            </div>
-
-            <div class="row items-center q-gutter-xs">
-              <span class="text-grey-8 text-weight-medium">Status:</span>
-              <q-select
-                v-model="selectActiveStatus"
-                rounded
                 dense
                 standout="no-shadow bg-grey-6"
                 dropdown-icon="arrow_drop_down"
@@ -85,30 +86,14 @@
           </div>
 
           <div class="col-4 col-sm-4 row justify-end items-center">
-            <div class="row items-center q-gutter-xs q-pr-md">
-              <span class="text-grey-8 text-weight-medium">Search:</span>
-              <q-input
-                rounded
-                dense
-                standout="no-shadow bg-grey-6"
-                color="blue-10"
-              >
-                <template v-slot:append>
-                  <q-icon name="search" />
-                </template>
-              </q-input>
-            </div>
-
-            <div class="row items-center">
+            <div class="row items-center q-pr-md">
               <q-btn
-                rounded
                 unelevated
-                padding="sm"
-                icon="add"
-                color="blue-10"
-                label="Add Links"
+                padding="none"
+                icon="cancel"
+                class="text-blue-10"
+                label="Clear filters"
                 no-caps
-                style="width: 150px"
               />
             </div>
           </div>
@@ -119,13 +104,13 @@
         <q-table
           ref="qTableLinks"
           class="links-table full-width"
+          style="border-top: 1px solid #cccccc"
           :rows="tableRows"
           :columns="tableColumns"
           :pagination="tablePagination"
           @update:pagination="onUpdatePagination"
           rows-per-page-label=""
           row-key="name"
-          separator="cell"
           square
           flat
         >
@@ -136,7 +121,6 @@
                 :key="col.name"
                 :props="scope"
                 style="height: 80px"
-                class="bg-blue-1"
               >
                 <q-checkbox
                   dense
@@ -221,14 +205,13 @@
               </span>
             </div>
 
-            <div class="row col justify-end items-center">
+            <div class="row col justify-end items-center q-pt-sm">
               <span class="text-grey-8 text-caption text-weight-medium q-pr-xs">
                 Records per page:
               </span>
 
               <q-select
                 v-model="selectActiveStatus"
-                rounded
                 dense
                 standout="no-shadow bg-grey-6"
                 dropdown-icon="arrow_drop_down"
@@ -290,6 +273,94 @@
       <div v-else class="flex flex-center" style="height: 500px">
         <p>No links created...</p>
       </div>
+
+      <q-dialog
+        v-model="showDialog"
+        persistent
+        transition-show="scale"
+        transition-hide="scale"
+      >
+        <q-card class="text-grey-8" style="width: 600px">
+          <q-card-section class="bg-blue-1 text-grey-8 q-pb-md">
+            <div class="text-h6">Add Link</div>
+          </q-card-section>
+
+          <q-card-section class="q-gutter-md">
+            <q-card-section>
+              <q-input
+                dense
+                label="Destination"
+                hide-bottom-space
+                :no-error-icon="true"
+              />
+
+              <div class="row items-center q-gutter-xs q-pr-md">
+                <span class="text-grey-8 text-weight-medium">Action:</span>
+                <q-input dense hide-bottom-space :no-error-icon="true" />
+              </div>
+
+              <q-img
+                :src="url"
+                spinner-color="white"
+                style="height: 140px; max-width: 150px"
+              />
+
+              <div class="row items-center q-gutter-xs q-pr-md">
+                <span class="text-grey-8 text-weight-medium">Description</span>
+                <q-input dense hide-bottom-space :no-error-icon="true" />
+              </div>
+            </q-card-section>
+            <q-input
+              dense
+              label="Link"
+              hide-bottom-space
+              :no-error-icon="true"
+            />
+            <q-input
+              dense
+              label="Tags"
+              hide-bottom-space
+              :no-error-icon="true"
+            />
+            <q-input
+              dense
+              label="Channels"
+              hide-bottom-space
+              :no-error-icon="true"
+            />
+            <q-input
+              dense
+              label="UTM"
+              hide-bottom-space
+              :no-error-icon="true"
+            />
+          </q-card-section>
+
+          <q-card-actions align="right" class="q-pa-md">
+            <q-btn
+              rounded
+              unelevated
+              padding="sm"
+              color="blue-10"
+              icon="check"
+              label="Saved"
+              no-caps
+              style="width: 150px"
+            />
+            <q-btn
+              outline
+              rounded
+              unelevated
+              padding="sm"
+              color="blue-10"
+              icon="close"
+              label="Cancel"
+              no-caps
+              style="width: 150px"
+            />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
     </div>
   </q-page>
 </template>
@@ -709,6 +780,7 @@ export default defineComponent({
     const headerCheckBoxState = ref(false);
     const headerCheckBoxPage = ref(0);
     const selectActiveStatus = ref("All");
+    const showDialog = ref(false);
 
     const getTitle = computed(() => {
       return `Links (${tableRows.value.length})`;
@@ -739,7 +811,7 @@ export default defineComponent({
       $q.iconSet.table.arrowUp = "arrow_drop_down";
     };
 
-    onMounted(() => {
+    onMounted(async () => {
       changeQTableArrowUpIcon();
     });
 
@@ -754,6 +826,7 @@ export default defineComponent({
       paginationOf,
       options: ["All", "Facebook", "Twitter", "Apple", "Oracle"],
       selectActiveStatus,
+      showDialog,
       changeQTableArrowUpIcon,
 
       onUpdateHeaderCheckBox(value, ev) {
@@ -787,11 +860,11 @@ export default defineComponent({
   }
 
   tbody tr:nth-child(2n + 1) {
+    background-color: $blue-1;
     height: 80px;
   }
 
   tbody tr:nth-child(2n + 2) {
-    background-color: $grey-3;
     height: 80px;
   }
 }
