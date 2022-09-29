@@ -3,6 +3,32 @@
     <div class="flex flex-center">
       <div class="row full-width q-mt-md q-px-lg">
         <div class="row full-width q-mb-lg">
+          <div class="col col-sm row justify-start items-center">
+            <div class="row items-center q-pb-md">
+              <q-btn
+                unelevated
+                padding="none"
+                icon="workspaces"
+                label="Workspaces"
+                class="text-blue-10"
+                to="/workspaces"
+                no-caps
+              />
+              <span class="text-weight-bold q-px-md">|</span>
+              <q-btn
+                unelevated
+                padding="none"
+                icon="groups"
+                label="Members"
+                class="text-blue-10"
+                to="/members"
+                no-caps
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="row full-width q-mb-lg">
           <div class="col-6 col-sm-6 row justify-start items-center">
             <div class="row items-center q-pr-sm q-pb-md">
               <q-icon size="md" name="groups" />
@@ -34,7 +60,7 @@
                 padding="sm"
                 icon="playlist_add"
                 color="blue-10"
-                label="Add Workspace"
+                label="Add Member"
                 no-caps
                 style="width: 180px"
                 @click="showDialog = true"
@@ -101,8 +127,8 @@
 
       <div v-if="tableRows.length" class="row full-width q-pa-lg">
         <q-table
-          ref="qTableWorkspaces"
-          class="workspaces-table full-width"
+          ref="qTableUTM"
+          class="utm-table full-width"
           style="border-top: 1px solid #cccccc"
           :rows="tableRows"
           :columns="tableColumns"
@@ -150,7 +176,7 @@
                   v-model="scope.row.selected"
                 />
               </q-td>
-              <q-td key="workspace" :props="scope">
+              <q-td key="member" :props="scope">
                 {{ scope.row.name }}
               </q-td>
               <q-td key="calories" :props="scope">
@@ -270,7 +296,7 @@
       </div>
 
       <div v-else class="flex flex-center" style="height: 500px">
-        <p>No workspaces created...</p>
+        <p>No utm created...</p>
       </div>
 
       <q-dialog
@@ -281,7 +307,7 @@
       >
         <q-card class="text-grey-8" style="width: 600px">
           <q-card-section class="bg-blue-1 text-grey-8 q-pb-md">
-            <div class="text-h6">Add Workspace</div>
+            <div class="text-h6">Add UTM</div>
           </q-card-section>
 
           <q-card-section class="q-gutter-md">
@@ -311,13 +337,13 @@
             </q-card-section>
             <q-input
               dense
-              label="Workspace"
+              label="UTM"
               hide-bottom-space
               :no-error-icon="true"
             />
             <q-input
               dense
-              label="Workspaces"
+              label="Tags"
               hide-bottom-space
               :no-error-icon="true"
             />
@@ -371,9 +397,9 @@ import { QTable, useQuasar } from "quasar";
 const columns = [
   { name: "selection", align: "left", field: "selection" },
   {
-    name: "workspace",
+    name: "member",
     required: true,
-    label: "Workspace",
+    label: "Member",
     align: "left",
     field: (row) => row.name,
     format: (val) => `${val}`,
@@ -769,10 +795,10 @@ const pagination = {
 };
 
 export default defineComponent({
-  name: "WorkspacesPage",
+  name: "MembersPage",
 
   setup() {
-    const qTableWorkspaces = ref(QTable);
+    const qTableUTM = ref(QTable);
     const tableColumns = ref(columns);
     const tableRows = ref(rows);
     const tablePagination = ref(pagination);
@@ -780,15 +806,16 @@ export default defineComponent({
     const headerCheckBoxPage = ref(0);
     const selectActiveStatus = ref("All");
     const showDialog = ref(false);
+    const buttonToggleModel = ref("Templates");
 
     const getTitle = computed(() => {
-      return `Workspaces (${tableRows.value.length})`;
+      return `Members (${tableRows.value.length})`;
     });
 
     const paginationOf = computed(() => {
-      if (typeof qTableWorkspaces.value.pagination !== "undefined") {
-        const { computedRows, computedRowsNumber } = qTableWorkspaces.value;
-        const { page, rowsPerPage } = qTableWorkspaces.value.pagination;
+      if (typeof qTableUTM.value.pagination !== "undefined") {
+        const { computedRows, computedRowsNumber } = qTableUTM.value;
+        const { page, rowsPerPage } = qTableUTM.value.pagination;
 
         if (page === Math.ceil(computedRowsNumber / rowsPerPage)) {
           return `${(page - 1) * rowsPerPage + 1} - ${
@@ -816,7 +843,7 @@ export default defineComponent({
 
     return {
       getTitle,
-      qTableWorkspaces,
+      qTableUTM,
       tableColumns,
       tableRows,
       tablePagination,
@@ -826,6 +853,7 @@ export default defineComponent({
       options: ["All", "Facebook", "Twitter", "Apple", "Oracle"],
       selectActiveStatus,
       showDialog,
+      buttonToggleModel,
       changeQTableArrowUpIcon,
 
       onUpdateHeaderCheckBox(value, ev) {
@@ -835,9 +863,7 @@ export default defineComponent({
           headerCheckBoxPage.value = 0;
         }
 
-        qTableWorkspaces.value.computedRows.forEach(
-          (item) => (item.selected = value)
-        );
+        qTableUTM.value.computedRows.forEach((item) => (item.selected = value));
       },
 
       onUpdatePagination(newPagination) {
@@ -852,7 +878,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.workspaces-table {
+.utm-table {
   .q-table__top,
   thead tr:first-child th {
     border-bottom: 0 !important;
