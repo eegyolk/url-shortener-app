@@ -280,25 +280,64 @@ const routes = [
   },
 
   {
-    path: "/utm",
+    path: "/utm-templates",
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
-        path: "templates",
-        name: "templates",
+        path: "",
+        name: "utm-templates",
         component: () => import("pages/Admin/UTMTemplatesPage.vue"),
         meta: {
           requiresAuth: true,
-          title: "UTM Templates",
+          title: "UTM Templaces",
         },
       },
+    ],
+  },
+
+  {
+    path: "/utm-parameters",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
       {
-        path: "parameters",
-        name: "parameters",
+        path: "",
+        name: "utm-parameters",
         component: () => import("pages/Admin/UTMParametersPage.vue"),
         meta: {
           requiresAuth: true,
           title: "UTM Parameters",
+        },
+      },
+    ],
+  },
+
+  {
+    path: "/workspaces",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      {
+        path: "",
+        name: "workspaces",
+        component: () => import("pages/Admin/WorkspacesPage.vue"),
+        meta: {
+          requiresAuth: true,
+          title: "Workspaces",
+        },
+      },
+    ],
+  },
+
+  {
+    path: "/members",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      {
+        path: "",
+        name: "members",
+        component: () => import("pages/Admin/MembersPage.vue"),
+        meta: {
+          requiresAuth: true,
+          title: "Members",
         },
       },
     ],
@@ -315,22 +354,6 @@ const routes = [
         meta: {
           requiresAuth: true,
           title: "Profile",
-        },
-      },
-    ],
-  },
-
-  {
-    path: "/workspace",
-    component: () => import("layouts/MainLayout.vue"),
-    children: [
-      {
-        path: "",
-        name: "workspace",
-        component: () => import("pages/Admin/WorkspacePage.vue"),
-        meta: {
-          requiresAuth: true,
-          title: "Workspace",
         },
       },
     ],
