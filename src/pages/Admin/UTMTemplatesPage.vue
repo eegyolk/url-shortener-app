@@ -11,7 +11,7 @@
                 icon="description"
                 label="Templates"
                 class="text-blue-10"
-                to="/utm/templates"
+                to="/utm-templates"
                 no-caps
               />
               <span class="text-weight-bold q-px-md">|</span>
@@ -21,7 +21,7 @@
                 icon="list_alt"
                 label="Parameters"
                 class="text-blue-10"
-                to="/utm/parameters"
+                to="/utm-parameters"
                 no-caps
               />
             </div>
@@ -176,7 +176,7 @@
                   v-model="scope.row.selected"
                 />
               </q-td>
-              <q-td key="utm" :props="scope">
+              <q-td key="template" :props="scope">
                 {{ scope.row.name }}
               </q-td>
               <q-td key="calories" :props="scope">
@@ -397,9 +397,9 @@ import { QTable, useQuasar } from "quasar";
 const columns = [
   { name: "selection", align: "left", field: "selection" },
   {
-    name: "utm",
+    name: "template",
     required: true,
-    label: "UTM",
+    label: "Template",
     align: "left",
     field: (row) => row.name,
     format: (val) => `${val}`,

@@ -11,7 +11,7 @@
                 icon="description"
                 label="Templates"
                 class="text-blue-10"
-                to="/utm/templates"
+                to="/utm-templates"
                 no-caps
               />
               <span class="text-weight-bold q-px-md">|</span>
@@ -21,7 +21,7 @@
                 icon="list_alt"
                 label="Parameters"
                 class="text-blue-10"
-                to="/utm/parameters"
+                to="/utm-parameters"
                 no-caps
               />
             </div>
